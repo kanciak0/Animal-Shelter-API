@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Project_API.Common.Models;
+﻿using Project_API.Common.Models;
 using Project_API.DTO;
 using Project_API.Entities;
 using Project_API.Features.User;
