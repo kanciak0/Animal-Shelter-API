@@ -44,7 +44,6 @@ namespace Project_API.Features.User
                 .AsNoTracking().ToListAsync(cancellationToken);
 
             var getuser = users.Select(u => u.MapToDto()).ToList();
-
             return getuser;
         }
     }

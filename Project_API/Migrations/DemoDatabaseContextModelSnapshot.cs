@@ -36,7 +36,7 @@ namespace Project_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserUUID")
+                    b.Property<Guid?>("UserUUID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Animal_UUID");
@@ -85,9 +85,7 @@ namespace Project_API.Migrations
                 {
                     b.HasOne("Project_API.Entities.User", "User")
                         .WithMany("Animals")
-                        .HasForeignKey("UserUUID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserUUID");
 
                     b.Navigation("User");
                 });

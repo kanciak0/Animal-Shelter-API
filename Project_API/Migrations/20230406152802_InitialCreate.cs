@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_API.Migrations
 {
     /// <inheritdoc />
-    public partial class UserEntity : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,7 @@ namespace Project_API.Migrations
                     Animal_UUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Species = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserUUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserUUID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,8 +44,7 @@ namespace Project_API.Migrations
                         name: "FK_Animals_Users_UserUUID",
                         column: x => x.UserUUID,
                         principalTable: "Users",
-                        principalColumn: "UUID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UUID");
                 });
 
             migrationBuilder.CreateIndex(

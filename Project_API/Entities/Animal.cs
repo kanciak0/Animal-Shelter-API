@@ -8,9 +8,8 @@ namespace Project_API.Entities
     {
         [Key]
         public Guid Animal_UUID { get; set; }
-
         public string Name { get; set; }
         public string Species { get; set; }
-        public User User { get; }
+        public virtual User? User { get; set; }
     }
 }

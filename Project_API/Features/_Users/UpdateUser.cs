@@ -104,6 +104,7 @@ namespace Project_API.Features.User
             RuleFor(x => x.State)
                 .MaximumLength(200)
                 .NotEmpty();
+
         }
         private Task<bool> BeUniqueUsername(string username, CancellationToken cancellationToken)
         {

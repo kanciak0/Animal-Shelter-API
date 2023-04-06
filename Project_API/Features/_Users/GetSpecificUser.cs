@@ -4,13 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
-using Project_API.Entities;
-using Project_API.Features.User;
 using Project_API.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class GetSpecificUserController : ApiControllerBase
 {
@@ -50,5 +44,6 @@ internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuer
                 .FirstOrDefaultAsync(x => x.UUID == request.UserId, cancellationToken);
 
         return user.MapToDto();
+
     }
 }
