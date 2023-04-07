@@ -8,7 +8,7 @@ namespace Project_API.Common.Mappings
 
     static public class AnimalMappingProfile
     {
-        public static GetAnimalDto MapToDto(this Animal animal)
+        public static GetAnimalDto MapToDto(this Animal_entity animal)
         {
             return new GetAnimalDto
             {
@@ -18,9 +18,9 @@ namespace Project_API.Common.Mappings
             };
         }
 
-        public static Animal MapToEntity(this GetAnimalDto animalDto)
+        public static Animal_entity MapToEntity(this GetAnimalDto animalDto)
         {
-            return new Animal
+            return new Animal_entity
             {
                 Animal_UUID = animalDto.Animal_Uuid,
                 Name = animalDto.Name,

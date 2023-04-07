@@ -7,7 +7,7 @@ namespace Project_API.Common.Mappings
 {
     public static class UserMappingProfile
     {
-        public static GetUserDto MapToDto(this User user)
+        public static GetUserDto MapToDto(this User_entity user)
         {
             return new GetUserDto
             {
@@ -22,9 +22,9 @@ namespace Project_API.Common.Mappings
             };
         }
 
-        public static User MapToEntity(this GetUserDto userDto)
+        public static User_entity MapToEntity(this GetUserDto userDto)
         {
-            return new User
+            return new User_entity
             {
                 UserName = userDto.UserName,
                 City = userDto.City,

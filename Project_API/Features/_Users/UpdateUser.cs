@@ -10,7 +10,7 @@ namespace Project_API.Features.User
     public class UpdateUserController : ApiControllerBase
     {
         [HttpPut("{uuid}")]
-        public async Task<IActionResult> Update([FromRoute] Guid uuid, [FromBody] UpdateUserCommand command)
+        public async Task<IActionResult> Update(Guid uuid, UpdateUserCommand command)
         {
             command.Uuid = uuid;
             await Mediator.Send(command);
@@ -64,7 +64,8 @@ namespace Project_API.Features.User
                             (x => x.Animal_UUID == animalUuid, cancellationToken); 
                         if (animal == null)
                         {
-                            throw new Exception($"Animal with UUID {animalUuid} not found"); //TODO: Make validation for animals through db like it is below instead
+                            throw new Exception($"Animal with UUID {animalUuid} not found"); //TODO: Make validation for animals
+                                                                                             //through db like it is below instead
                         }
                         user.Animals.Add(animal);
                     }

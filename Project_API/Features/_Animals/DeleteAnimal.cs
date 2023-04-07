@@ -11,7 +11,7 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute]Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             await Mediator.Send(new DeleteAnimalCommand { Id = id });
 
@@ -30,11 +30,8 @@ namespace Project_API.Features.User
         {
             try
             {
-                var animal = _dbcontext.Animals.FirstOrDefault(x => x.Animal_UUID == request.Id);
-                if (animal == null)
-                {
-                    throw new Exception("User not found");
-                }
+                var animal = _dbcontext.Animals.FirstOrDefault(x => x.Animal_UUID == request.Id)
+                ?? throw new Exception("User not found");
                 _dbcontext.Entry(animal).State = EntityState.Deleted;
                 _dbcontext.SaveChanges();
                 return Task.FromResult(animal.Animal_UUID);

@@ -30,17 +30,17 @@ namespace Project_API.Features.User
 
     internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, List<GetUserDto>>
     {
-        private readonly DemoDatabaseContext _dbContext;
+        private readonly DemoDatabaseContext _dbcontext;
 
         public GetUserQueryHandler(DemoDatabaseContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbcontext = dbContext;
         }
 
         public async Task<List<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var users = await _dbContext.Users
-                .Include(u =>u.Animals)
+            var users = await _dbcontext.Users
+                .Include(a =>a.Animals)
                 .AsNoTracking().ToListAsync(cancellationToken);
 
             var getuser = users.Select(u => u.MapToDto()).ToList();

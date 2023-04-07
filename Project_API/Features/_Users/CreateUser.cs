@@ -13,7 +13,7 @@ namespace Project_API.Controllers._Users
     public class CreateUserController : ApiControllerBase
     {
         [HttpPost()]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateUserCommand request)
+        public async Task<ActionResult<Guid>> Create(CreateUserCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
@@ -35,7 +35,7 @@ namespace Project_API.Controllers._Users
         public CreateUserCommandHandler(DemoDatabaseContext dbcontext) { _dbContext = dbcontext; }
         public Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = new User
+            var entity = new User_entity
             {
                 UUID = Guid.NewGuid(),
                 UserName = request.UserName,

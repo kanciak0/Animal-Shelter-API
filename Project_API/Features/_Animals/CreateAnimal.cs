@@ -13,7 +13,7 @@ namespace Project_API.Controllers._Users
     public class CreateAnimalController : ApiControllerBase
     {
         [HttpPost()]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateAnimalCommand request)
+        public async Task<ActionResult<Guid>> Create(CreateAnimalCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
@@ -30,7 +30,7 @@ namespace Project_API.Controllers._Users
         public CreateAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
         public Task<Guid> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Animal
+            var entity = new Animal_entity
             {
                 Animal_UUID = Guid.NewGuid(),
                 Name = request.Name,

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_API.Entities
 {
-    public class User
+    public class User_entity
     {
         [Key]
         public Guid UUID { get; set; }
@@ -15,6 +15,6 @@ namespace Project_API.Entities
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
-        public virtual ICollection<Animal> Animals { get; set; } = new List<Animal>();
+        public virtual ICollection<Animal_entity> Animals { get; set; } = new List<Animal_entity>();
     }
 }

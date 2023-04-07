@@ -11,7 +11,7 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute]Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
 
