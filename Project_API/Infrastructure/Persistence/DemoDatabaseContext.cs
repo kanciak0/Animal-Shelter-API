@@ -9,8 +9,8 @@ namespace Project_API.Infrastructure.Persistence
         {
 
         }
-        public DbSet<User_entity> Users { get; set; }
-        public DbSet<Animal_entity> Animals { get; set; }
+        public DbSet<User_entity> Users => Set<User_entity>();
+        public DbSet<Animal_entity> Animals =>Set<Animal_entity>(); 
        
     }
    
