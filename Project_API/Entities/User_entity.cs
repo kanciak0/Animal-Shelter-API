@@ -15,6 +15,6 @@ namespace Project_API.Entities
         public string City { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
-        public virtual ICollection<Animal_entity> Animals { get; set; } = new List<Animal_entity>();
+        public virtual ICollection<Animal_entity> Animals { get; private set; } = new List<Animal_entity>();
     }
 }

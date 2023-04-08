@@ -9,7 +9,7 @@ using Project_API.Infrastructure.Persistence;
 public class GetSpecificUserController : ApiControllerBase
 {
     [HttpGet("{userId}")]
-    public async Task<ActionResult<GetUserDto>> GetSpecific([FromRoute] Guid userId)
+    public async Task<ActionResult<GetUserDto>> GetSpecific(Guid userId)
     {
         var user = await Mediator.Send(new GetSpecificUserQuery { UserId = userId });
 
@@ -17,7 +17,6 @@ public class GetSpecificUserController : ApiControllerBase
         {
             return NotFound();
         }
-
         return user;
     }
 }
