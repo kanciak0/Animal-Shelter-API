@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
+using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 
 public class GetSpecificUserController : ApiControllerBase
 {
     [HttpGet("{userId}")]
-    public async Task<ActionResult<GetUserDto>> GetSpecific(Guid userId)
+    public async Task<ActionResult<GetUserDto>> GetSpecific([FromQuery]User_ID userId)
     {
         var user = await Mediator.Send(new GetSpecificUserQuery { UserId = userId });
 
@@ -23,7 +24,7 @@ public class GetSpecificUserController : ApiControllerBase
 
 public class GetSpecificUserQuery : IRequest<GetUserDto>
 {
-    public Guid UserId { get; set; }
+    public User_ID UserId { get; set; }
 }
 
 internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuery, GetUserDto>
@@ -40,7 +41,7 @@ internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuer
         var user = await _dbContext.Users
                 .Include(u => u.Animals)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.UUID == request.UserId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.User_UUID == request.UserId, cancellationToken);
 
         return user.MapToDto();
 

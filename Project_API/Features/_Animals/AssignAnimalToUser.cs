@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
+using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 
 namespace Project_API.Features._Animals
@@ -9,19 +10,18 @@ namespace Project_API.Features._Animals
     public class AssignAnimatoUserController : ApiControllerBase
     {
         [HttpPut("{uuid}")]
-        public async Task<IActionResult> Assign(Guid uuid, AssignAnimalToUserCommand command)
+        public async Task<IActionResult> Assign(User_ID uuid,[FromQuery] AssignAnimalToUserCommand command)
         {
             command.Uuid = uuid;
             await Mediator.Send(command);
 
             return NoContent();
         }
-
     }
     public class AssignAnimalToUserCommand : IRequest<Unit>
     {
-        public Guid Uuid { get; set; }
-        public ICollection<Guid> AnimalUuids { get; set; } = new List<Guid>();
+        public User_ID Uuid { get; set; }
+        public ICollection<Animal_ID> AnimalUuids { get; set; } = new List<Animal_ID>();
     }
 
     internal class AssignAnimalToUserCommandHandler : IRequestHandler<AssignAnimalToUserCommand, Unit>
@@ -37,7 +37,7 @@ namespace Project_API.Features._Animals
             try
             {
                 var user = await _dbcontext.Users.Include(u => u.Animals)
-                    .FirstOrDefaultAsync(x => x.UUID == request.Uuid, cancellationToken)
+                    .FirstOrDefaultAsync(x => x.User_UUID == request.Uuid, cancellationToken)
                     ?? throw new Exception("User not found");
                 foreach (var animalUuid in request.AnimalUuids)
                 {

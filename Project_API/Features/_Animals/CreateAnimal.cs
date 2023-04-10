@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
-using Project_API.Common.Models;
 using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 
@@ -13,34 +12,28 @@ namespace Project_API.Controllers._Users
     public class CreateAnimalController : ApiControllerBase
     {
         [HttpPost()]
-        public async Task<ActionResult<Guid>> Create(CreateAnimalCommand request)
+        public async Task<ActionResult<string>> Create(CreateAnimalCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
         }
     }
-    public class CreateAnimalCommand : IRequest<Guid>
+    public class CreateAnimalCommand : IRequest<string>
     {
         public string Name { get; set; }
         public string Species { get; set; }
     }
-    internal class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, Guid>
+    internal class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, string>
     {
         private readonly DemoDatabaseContext _dbcontext;
         public CreateAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
-        public Task<Guid> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
+        public Task<string> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Animal_entity
-            {
-                Animal_UUID = Guid.NewGuid(),
-                Name = request.Name,
-                Species = request.Species,
-                User = null
-            };
+            var entity = Animal_Entity.Create(request.Name, request.Species);
             _dbcontext.Animals.Add(entity);
 
             _dbcontext.SaveChanges();
-            return Task.FromResult(entity.Animal_UUID);
+            return Task.FromResult(entity.Name+"has been created");
         }
     }
     public class CreateAnimalCommandValidator : AbstractValidator<CreateAnimalCommand>

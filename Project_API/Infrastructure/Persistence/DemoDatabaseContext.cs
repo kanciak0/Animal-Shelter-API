@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_API.Entities;
+using Project_API.Infrastructure.Persistence.Configurations;
 using System.Reflection;
 
 namespace Project_API.Infrastructure.Persistence
@@ -10,15 +11,19 @@ namespace Project_API.Infrastructure.Persistence
         {
 
         }
-        public DbSet<User_entity> Users => Set<User_entity>();
-        public DbSet<Animal_entity> Animals =>Set<Animal_entity>();
+        public DbSet<User_Entity> Users => Set<User_Entity>();
+        public DbSet<Animal_Entity> Animals =>Set<Animal_Entity>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            new UserEntityConfiguration().Configure(builder.Entity<User_Entity>());
+            new AnimalEntityConfiguration().Configure(builder.Entity<Animal_Entity>());
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
+
         }
+
     }
    
 }

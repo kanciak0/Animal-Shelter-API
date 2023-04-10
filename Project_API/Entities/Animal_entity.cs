@@ -1,15 +1,24 @@
-﻿using Project_API.Common.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_API.Entities
 {
-    public class Animal_entity
+    public class Animal_Entity
     {
-        [Key]
-        public Guid Animal_UUID { get; set; }
-        public string Name { get; set; }
-        public string Species { get; set; }
-        public virtual User_entity? User { get; set; }
+        private Animal_Entity() { }
+        public Animal_ID Animal_UUID { get; private set; }
+        public string Name { get;private set; }
+        public string Species { get; private set; }
+        public virtual User_Entity? User { get; private set; }
+        public static Animal_Entity Create(string name, string species)
+        {
+            var animal = new Animal_Entity
+            {
+                Animal_UUID =new Animal_ID(Guid.NewGuid()),
+                Name = name,
+                Species = species,
+            };
+            return animal;
+        }
     }
 }

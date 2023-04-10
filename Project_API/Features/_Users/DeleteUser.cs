@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using Azure.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
+using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
 
@@ -11,33 +13,35 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(User_ID id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
 
             return NoContent();
         }
     }
-    public class DeleteUserCommand : IRequest<Guid>
+    public class DeleteUserCommand : IRequest<string>
     {
-        public Guid Id { get; set; }
+        public string Username { get; set; }
+        public User_ID Id { get; set; }
     }
-    internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Guid>
+    internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, string>
     {
-        private readonly DemoDatabaseContext _dbContext;
-        public DeleteUserCommandHandler(DemoDatabaseContext dbcontext) { _dbContext = dbcontext; }
-        public Task<Guid> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        private readonly DemoDatabaseContext _dbcontext;
+        public DeleteUserCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
+        public Task<string> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = _dbContext.Users.FirstOrDefault(x => x.UUID == request.Id);
+                var username = User_Entity.Username(request.Username);
+                var user = _dbcontext.Users.FirstOrDefault(x => x.User_UUID == request.Id);
                 if (user == null)
                 {
                     throw new Exception("User not found");
                 }
-                _dbContext.Entry(user).State = EntityState.Deleted;
-                _dbContext.SaveChanges();
-                return Task.FromResult(user.UUID);
+                _dbcontext.Entry(user).State = EntityState.Deleted;
+                _dbcontext.SaveChanges();
+                return Task.FromResult(username.UserName+"user has been deleted");
             }
             catch (Exception)
             {

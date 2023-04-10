@@ -1,21 +1,22 @@
-﻿namespace Project_API.DTO
+﻿using Project_API.Entities;
+using Project_API.ValueObjects;
+
+namespace Project_API.DTO
 {
 
     public class GetUserDto
     {
-        public Guid User_Uuid { get; set; }
+        public User_ID User_Uuid { get; set; }
         public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        public Address Address { get; set; }
+        public UserCredentials UserCredentials { get; set; }
+
         public List<GetAnimalDto> Animals { get; set; }
     }
 
     public class GetAnimalDto
     {
-        public Guid Animal_Uuid { get; set; }
+        public Animal_ID Animal_Uuid { get; set; }
         public string Name { get; set; }
         public string Species { get; set; }
     }

@@ -4,53 +4,44 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
-using Project_API.Common.Models;
 using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
+using Project_API.ValueObjects;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Project_API.Controllers._Users
 {
     public class CreateUserController : ApiControllerBase
     {
         [HttpPost()]
-        public async Task<ActionResult<Guid>> Create(CreateUserCommand request)
+        public async Task<ActionResult<string>> Create(CreateUserCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
         }
     }
-    public class CreateUserCommand : IRequest<Guid>
+    public class CreateUserCommand : IRequest<string>
     {
         public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        public UserCredentials Credentials { get; set; }
+        public Address Address { get; set; }
 
     }
-    internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
+    internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
     {
         private readonly DemoDatabaseContext _dbContext;
         public CreateUserCommandHandler(DemoDatabaseContext dbcontext) { _dbContext = dbcontext; }
-        public Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = new User_entity
-            {
-                UUID = Guid.NewGuid(),
-                UserName = request.UserName,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                City = request.City,
-                Country = request.Country,
-                State = request.State,
-            };
-            _dbContext.Users.Add(entity);
+            var user = User_Entity.Create(request.UserName, request.Credentials, request.Address);
+            _dbContext.Users.Add(user);
 
             _dbContext.SaveChanges();
-            return Task.FromResult(entity.UUID);
+            return Task.FromResult(user.UserName+" user has been correctly created");
         }
     }
+
     public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
         private readonly DemoDatabaseContext _dbContext;
@@ -61,21 +52,6 @@ namespace Project_API.Controllers._Users
                    .MaximumLength(50)
                    .NotEmpty()
                    .MustAsync(BeUniqueUsername);
-            RuleFor(FirstName => FirstName.FirstName)
-                    .MaximumLength(50)
-                    .NotEmpty();
-            RuleFor(LastName => LastName.LastName)
-                .MaximumLength(100)
-                .NotEmpty();
-            RuleFor(City => City.City)
-                .MaximumLength(50)
-                .NotEmpty();
-            RuleFor(Country => Country.Country)
-                .MaximumLength(50)
-                .NotEmpty();
-            RuleFor(State => State.State)
-                .MaximumLength(50)
-                .NotEmpty();
         }
         private Task<bool> BeUniqueUsername(string username, CancellationToken cancellationToken)
         {

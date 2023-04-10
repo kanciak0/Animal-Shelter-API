@@ -3,114 +3,89 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
+using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
+using Project_API.ValueObjects;
+using System;
+using System.Net;
 
 namespace Project_API.Features.User
 {
     public class UpdateUserController : ApiControllerBase
     {
         [HttpPut("{uuid}")]
-        public async Task<IActionResult> Update(Guid uuid, UpdateUserCommand command)
+        public async Task<ActionResult<string>> Update([FromBody] UpdateUserCommand command)
         {
-            command.Uuid = uuid;
-            await Mediator.Send(command);
-
-            return NoContent();
+            var result = await Mediator.Send(command);
+            return Ok(result);
         }
     }
 
-    public class UpdateUserCommand : IRequest<Unit>
+
+    public class UpdateUserCommand : IRequest<string>
     {
-        public Guid Uuid { get; set; }
+        public User_ID Uuid { get; set; }
         public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-        public ICollection<Guid> AnimalUuids { get; set; } = new List<Guid>();
+
     }
 
-    internal class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
+    internal class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, string>
     {
-        private readonly DemoDatabaseContext _dbContext;
+        private readonly DemoDatabaseContext _dbcontext;
 
         public UpdateUserCommandHandler(DemoDatabaseContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbcontext = dbContext;
         }
 
-        public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = await _dbContext.Users.Include(u => u.Animals).FirstOrDefaultAsync(x => x.UUID == request.Uuid, cancellationToken);
+                var user = await _dbcontext.Users.FirstOrDefaultAsync(u => u.User_UUID.Equals(request.Uuid));
+
                 if (user == null)
                 {
                     throw new Exception("User not found");
                 }
-                user.UserName = request.UserName;
-                user.FirstName = request.FirstName;
-                user.LastName = request.LastName;
-                user.City = request.City;
-                user.State = request.State;
-                user.Country = request.Country;
-
-                foreach (var animalUuid in request.AnimalUuids)
-                {
-                    if (!user.Animals.Any(a => a.Animal_UUID == animalUuid))
-                    {
-                        var animal = await _dbContext.Animals.FirstOrDefaultAsync
-                            (x => x.Animal_UUID == animalUuid, cancellationToken); 
-                        if (animal == null)
-                        {
-                            throw new Exception($"Animal with UUID {animalUuid} not found"); //TODO: Make validation for animals
-                                                                                             //through db like it is below instead
-                        }
-                        user.Animals.Add(animal);
-                    }
-                }
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                var userentity = User_Entity.Update(request.Uuid, request.UserName);
+                _dbcontext.Entry(user).State = EntityState.Detached;
+                _dbcontext.Entry(userentity).State = EntityState.Modified;
+                await _dbcontext.SaveChangesAsync(cancellationToken);
+                return "Username has been updated";
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            return Unit.Value;
         }
     }
 
     public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
-        private readonly DemoDatabaseContext _dbContext;
+        private readonly DemoDatabaseContext _dbcontext;
         public UpdateUserCommandValidator(DemoDatabaseContext dbcontext)
         {
-            _dbContext = dbcontext;
+            _dbcontext = dbcontext;
+            _dbcontext.Users.Load();
             RuleFor(x => x.UserName)
                 .MaximumLength(200)
                 .NotEmpty()
                 .MustAsync(BeUniqueUsername);
-            RuleFor(x => x.FirstName)
-                .MaximumLength(200)
-                .NotEmpty();
-            RuleFor(x => x.LastName)
-                .MaximumLength(200)
-                .NotEmpty();
-            RuleFor(x => x.City)
-                .MaximumLength(200)
-                .NotEmpty();
-            RuleFor(x => x.Country)
-                .MaximumLength(200)
-                .NotEmpty();
-            RuleFor(x => x.State)
-                .MaximumLength(200)
-                .NotEmpty();
-
+            RuleFor(x => x.Uuid)
+                .NotEmpty()
+                .MustAsync(BeValidUuid);
         }
         private Task<bool> BeUniqueUsername(string username, CancellationToken cancellationToken)
         {
-            return _dbContext.Users
-                .AllAsync(User => User.UserName != username, cancellationToken);
+            return _dbcontext.Users
+               
+                .AllAsync(u => u.UserName != username, cancellationToken);
+        }
+        private Task<bool> BeValidUuid(User_ID uuid, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(uuid != null && uuid.Value != Guid.Empty);
         }
     }
 }
+

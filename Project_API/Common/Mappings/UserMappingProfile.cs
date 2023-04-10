@@ -1,5 +1,4 @@
-﻿using Project_API.Common.Models;
-using Project_API.DTO;
+﻿using Project_API.DTO;
 using Project_API.Entities;
 using Project_API.Features.User;
 
@@ -7,33 +6,15 @@ namespace Project_API.Common.Mappings
 {
     public static class UserMappingProfile
     {
-        public static GetUserDto MapToDto(this User_entity user)
+        public static GetUserDto MapToDto(this User_Entity user)
         {
             return new GetUserDto
             {
-                User_Uuid = user.UUID,
+                User_Uuid = user.User_UUID,
                 UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                City = user.City,
-                State = user.State,
-                Country = user.Country,
+                Address = user.Address,
+                UserCredentials = user.Credentials,
                 Animals = user.Animals.Select(a => a.MapToDto()).ToList()
-            };
-        }
-
-        public static User_entity MapToEntity(this GetUserDto userDto)
-        {
-            return new User_entity
-            {
-                UserName = userDto.UserName,
-                City = userDto.City,
-                Country = userDto.Country,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                State = userDto.State,
-                UUID = userDto.User_Uuid,
-                Animals = userDto.Animals.Select(a => a.MapToEntity()).ToList()
             };
         }
     }

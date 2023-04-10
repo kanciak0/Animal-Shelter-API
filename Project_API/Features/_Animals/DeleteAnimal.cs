@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
+using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
 
@@ -11,22 +12,22 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(Animal_ID id)
         {
             await Mediator.Send(new DeleteAnimalCommand { Id = id });
 
             return NoContent();
         }
     }
-    public class DeleteAnimalCommand : IRequest<Guid>
+    public class DeleteAnimalCommand : IRequest<Animal_ID>
     {
-        public Guid Id { get; set; }
+        public Animal_ID Id { get; set; }
     }
-    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, Guid>
+    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, Animal_ID>
     {
         private readonly DemoDatabaseContext _dbcontext;
         public DeleteAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
-        public Task<Guid> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
+        public Task<Animal_ID> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
         {
             try
             {
