@@ -6,6 +6,7 @@ using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
+using Project_API.ValueObjects.UserValueObjects;
 
 namespace Project_API.Controllers._Users
 {
@@ -21,7 +22,7 @@ namespace Project_API.Controllers._Users
     public class CreateAnimalCommand : IRequest<string>
     {
         public string Name { get; set; }
-        public string Species { get; set; }
+        public Species Species { get; set; }
     }
     internal class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, string>
     {
@@ -33,7 +34,7 @@ namespace Project_API.Controllers._Users
             _dbcontext.Animals.Add(entity);
 
             _dbcontext.SaveChanges();
-            return Task.FromResult(entity.Name+"has been created");
+            return Task.FromResult(entity.Name+" has been created");
         }
     }
     public class CreateAnimalCommandValidator : AbstractValidator<CreateAnimalCommand>
@@ -46,9 +47,9 @@ namespace Project_API.Controllers._Users
             RuleFor(x => x.Name)
                    .MaximumLength(50)
                    .NotEmpty();
-            RuleFor(x => x.Species)
-                    .MaximumLength(50)
-                    .NotEmpty();
+            RuleFor(x =>x.Species._Species)
+                   .MaximumLength(50)
+                   .NotEmpty();
         }
     }
 }

@@ -18,19 +18,22 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             .IsRequired()
             .HasConversion(userId => userId.Value,
             value =>new User_ID(value));
-            builder.OwnsOne(p => p.Address)
-                            .Property(p => p.City).HasColumnName("City");
+
 
             builder.OwnsOne(p => p.Address)
-                                        .Property(p => p.State).HasColumnName("State");
+                .Property(p => p.City).HasColumnName("City");
+
             builder.OwnsOne(p => p.Address)
-                                        .Property(p => p.Country).HasColumnName("Country");
+                .Property(p => p.State).HasColumnName("State");
+
+            builder.OwnsOne(p => p.Address)
+                .Property(p => p.Country).HasColumnName("Country");
+
             builder.OwnsOne(p => p.Credentials)
-                                        .Property(p => p.FirstName).HasColumnName("Firstname");
+                .Property(p => p.FirstName).HasColumnName("Firstname");
+
             builder.OwnsOne(p => p.Credentials)
-                                        .Property(p => p.LastName).HasColumnName("Lastname");
-            
-        }
-        
+                .Property(p => p.LastName).HasColumnName("Lastname");
+        } 
     }
 }

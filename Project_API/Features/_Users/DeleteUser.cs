@@ -13,11 +13,11 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(User_ID id)
+        public async Task<ActionResult<string>> Delete(User_ID id)
         {
             await Mediator.Send(new DeleteUserCommand { Id = id });
 
-            return NoContent();
+            return Ok();
         }
     }
     public class DeleteUserCommand : IRequest<string>

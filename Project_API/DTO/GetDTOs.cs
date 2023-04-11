@@ -1,5 +1,6 @@
 ﻿using Project_API.Entities;
 using Project_API.ValueObjects;
+using Project_API.ValueObjects.UserValueObjects;
 
 namespace Project_API.DTO
 {
@@ -18,7 +19,7 @@ namespace Project_API.DTO
     {
         public Animal_ID Animal_Uuid { get; set; }
         public string Name { get; set; }
-        public string Species { get; set; }
+        public Species Species { get; set; }
     }
 }
 

@@ -7,6 +7,7 @@ using Project_API.Common.Mappings;
 using Project_API.Entities;
 using Project_API.Infrastructure.Persistence;
 using Project_API.ValueObjects;
+using Project_API.ValueObjects.UserValueObjects;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -12,22 +12,21 @@ namespace Project_API.Features.User
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Animal_ID id)
+        public async Task<ActionResult<string>> Delete(Animal_ID id)
         {
             await Mediator.Send(new DeleteAnimalCommand { Id = id });
-
-            return NoContent();
+            return Ok();
         }
     }
-    public class DeleteAnimalCommand : IRequest<Animal_ID>
+    public class DeleteAnimalCommand : IRequest<string>
     {
         public Animal_ID Id { get; set; }
     }
-    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, Animal_ID>
+    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, string>
     {
         private readonly DemoDatabaseContext _dbcontext;
         public DeleteAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
-        public Task<Animal_ID> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
+        public Task<string> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -35,7 +34,7 @@ namespace Project_API.Features.User
                 ?? throw new Exception("User not found");
                 _dbcontext.Entry(animal).State = EntityState.Deleted;
                 _dbcontext.SaveChanges();
-                return Task.FromResult(animal.Animal_UUID);
+                return Task.FromResult("Animal has been deleted");
             }
             catch (Exception)
             {

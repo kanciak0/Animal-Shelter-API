@@ -21,7 +21,7 @@ public class AnimalEntityConfiguration : IEntityTypeConfiguration<Animal_Entity>
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(a => a.Species)
+        builder.OwnsOne(a =>a.Species).Property(a => a._Species)
             .HasColumnName("Species")
             .HasMaxLength(50)
             .IsRequired();

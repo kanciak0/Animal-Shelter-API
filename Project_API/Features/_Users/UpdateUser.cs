@@ -21,7 +21,6 @@ namespace Project_API.Features.User
         }
     }
 
-
     public class UpdateUserCommand : IRequest<string>
     {
         public User_ID Uuid { get; set; }
@@ -52,6 +51,7 @@ namespace Project_API.Features.User
                 _dbcontext.Entry(user).State = EntityState.Detached;
                 _dbcontext.Entry(userentity).State = EntityState.Modified;
                 await _dbcontext.SaveChangesAsync(cancellationToken);
+
                 return "Username has been updated";
             }
             catch (Exception e)

@@ -12,7 +12,7 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DemoDatabaseContext))]
-    [Migration("20230410083307_InitialCreate")]
+    [Migration("20230410215547_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,12 +36,6 @@ namespace Project_API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Name");
-
-                    b.Property<string>("Species")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("Species");
 
                     b.Property<Guid?>("User_UUID")
                         .HasColumnType("uniqueidentifier");
@@ -74,6 +68,28 @@ namespace Project_API.Migrations
                         .WithMany("Animals")
                         .HasForeignKey("User_UUID")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.OwnsOne("Project_API.ValueObjects.UserValueObjects.Species", "Species", b1 =>
+                        {
+                            b1.Property<Guid>("Animal_EntityAnimal_UUID")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("_Species")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Species");
+
+                            b1.HasKey("Animal_EntityAnimal_UUID");
+
+                            b1.ToTable("Animals");
+
+                            b1.WithOwner()
+                                .HasForeignKey("Animal_EntityAnimal_UUID");
+                        });
+
+                    b.Navigation("Species")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Project_API.Entities.User_Entity", b =>
@@ -106,7 +122,7 @@ namespace Project_API.Migrations
                                 .HasForeignKey("User_EntityUser_UUID");
                         });
 
-                    b.OwnsOne("Project_API.ValueObjects.UserCredentials", "Credentials", b1 =>
+                    b.OwnsOne("Project_API.ValueObjects.UserValueObjects.UserCredentials", "Credentials", b1 =>
                         {
                             b1.Property<Guid>("User_EntityUser_UUID")
                                 .HasColumnType("uniqueidentifier");

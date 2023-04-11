@@ -1,4 +1,5 @@
 ﻿using Project_API.ValueObjects;
+using Project_API.ValueObjects.UserValueObjects;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project_API.Entities

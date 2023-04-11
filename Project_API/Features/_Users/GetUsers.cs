@@ -42,7 +42,6 @@ namespace Project_API.Features.User
             var users = await _dbcontext.Users
                 .Include(a =>a.Animals)
                 .AsNoTracking().ToListAsync(cancellationToken);
-
             var getuser = users.Select(u => u.MapToDto()).ToList();
             return getuser;
         }
