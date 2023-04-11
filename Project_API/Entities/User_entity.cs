@@ -8,6 +8,7 @@ namespace Project_API.Entities
     {
 
         private User_Entity() { }
+        
         public User_ID User_UUID { get; private set; }
         public string UserName { get; private set; }
         public UserCredentials Credentials { get; private set; }
@@ -38,6 +39,41 @@ namespace Project_API.Entities
             var user = new User_Entity
             { UserName = username };
             return user;
+        }
+        public static void AddUserAnimalException(User_ID user, ICollection<Animal_ID> animal, string path)
+        {
+            //sprawdzenie, czy plik z istnieje
+            if (!File.Exists(path))
+            {
+                //zapisz słownik do pliku
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    sw.WriteLine("--------File for user-animal uuid pairs for exception--------");
+
+                    foreach (Animal_ID animalId in animal)
+                    {
+                        sw.WriteLine($"{user.Value}:{animalId.Value}");
+                    }
+                }
+            }
+            else
+            {
+                //jeśli plik istnieje, wczytaj zawartość do słownika
+                foreach (string line in File.ReadAllLines(path))
+                {
+                    //pomiń pierwszą linię z nagłówkiem
+                    if (!string.IsNullOrWhiteSpace(line)) continue;
+                }
+
+                //zapisz słownik do pliku
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    foreach (Animal_ID animalId in animal)
+                    {
+                        sw.WriteLine($"{user.Value}:{animalId.Value}");
+                    }
+                }
+            }
         }
         public bool Equals(User_ID other)
         {

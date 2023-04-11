@@ -45,7 +45,6 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Data\" />
     <Folder Include="DTO\" />
-    <Folder Include="Infrastructure\Files\" />
   </ItemGroup>
 
 </Project>

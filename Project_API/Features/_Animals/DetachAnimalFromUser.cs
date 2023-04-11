@@ -54,7 +54,15 @@ namespace Project_API.Features._Animals
                         throw new Exception($"Animal with UUID {animalUuid} is not attached to user with UUID {request.Uuid}");
                     }
                     user.Animals.Remove(animal);
+                    User_Entity.AddUserAnimalException(request.Uuid, new List<Animal_ID> { animalUuid }, 
+                        "C:\\Users\\48533\\source\\repos\\CRUDApi-VerticalSliceArchitecture\\" +
+                                "Project_API\\Infrastructure\\Files\\User_Animal_Exceptions.txt");
+
+
                 }
+
+
+
                 await _dbcontext.SaveChangesAsync(cancellationToken); 
 
                 return "Animal(s) detached successfully";

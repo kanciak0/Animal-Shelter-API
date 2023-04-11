@@ -29,6 +29,6 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             if (failures.Any())
                 throw new ValidationException(failures);
         }
-        return await next();
+        return await next(); //TODO: It doesnt work for now, need to figure it out, keeping logic in requests.
     }
 }
