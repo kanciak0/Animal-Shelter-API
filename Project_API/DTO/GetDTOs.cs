@@ -1,6 +1,5 @@
-﻿using Project_API.Entities;
-using Project_API.ValueObjects;
-using Project_API.ValueObjects.UserValueObjects;
+﻿using Project_API.Entities.AnimalAggregate;
+using Project_API.Entities.UserAggregate;
 
 namespace Project_API.DTO
 {
@@ -9,7 +8,7 @@ namespace Project_API.DTO
     {
         public User_ID User_Uuid { get; set; }
         public string UserName { get; set; }
-        public Address Address { get; set; }
+        public UserAddress Address { get; set; }
         public UserCredentials UserCredentials { get; set; }
 
         public List<GetAnimalDto> Animals { get; set; }

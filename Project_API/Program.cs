@@ -10,7 +10,6 @@ using Project_API.Features._Animals;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
 using System.Reflection;
-using static Project_API.Features._Animals.AssignAnimalToUserCommandHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 {

@@ -1,7 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Project_API.Entities;
+using Project_API.Entities.AnimalAggregate;
+
 namespace Project_API.Common.Mappings;
+// TODO: Make it generic
+
 public class AnimalIdValueConverter : ValueConverter<Animal_ID, Guid>
 {
     public AnimalIdValueConverter() : base(

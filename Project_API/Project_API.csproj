@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Interfaces\" />
+    <Folder Include="Controllers\_AnimalShelter\" />
     <Folder Include="Data\" />
     <Folder Include="DTO\" />
   </ItemGroup>

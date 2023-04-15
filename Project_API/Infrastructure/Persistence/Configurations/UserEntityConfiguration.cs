@@ -2,13 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Project_API.Common.Mappings;
 using Project_API.Entities;
+using Project_API.Entities.UserAggregate;
 using System.Reflection.Emit;
+using static Enumeration;
+using static Project_API.Entities.UserAggregate.User;
 
 namespace Project_API.Infrastructure.Persistence.Configurations
 {
-    public class UserEntityConfiguration: IEntityTypeConfiguration<User_Entity>
+    public class UserEntityConfiguration: IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User_Entity> builder) 
+        public void Configure(EntityTypeBuilder<User> builder) 
         {
             builder.ToTable("Users");
 
@@ -20,20 +23,30 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             value =>new User_ID(value));
 
 
-            builder.OwnsOne(p => p.Address)
-                .Property(p => p.City).HasColumnName("City");
+            builder.OwnsOne(p => p.UserAddress)
+                .Property(p => p.City)
+                .HasMaxLength(255)
+                .HasColumnName("City");
 
-            builder.OwnsOne(p => p.Address)
-                .Property(p => p.State).HasColumnName("State");
+            builder.OwnsOne(p => p.UserAddress)
+                .Property(p => p.State)
+                .HasMaxLength(255)
+                .HasColumnName("State");
 
-            builder.OwnsOne(p => p.Address)
-                .Property(p => p.Country).HasColumnName("Country");
+            builder.OwnsOne(p => p.UserAddress)
+                .Property(p => p.Country)
+                .HasMaxLength(255)
+                .HasColumnName("Country");
 
-            builder.OwnsOne(p => p.Credentials)
-                .Property(p => p.FirstName).HasColumnName("Firstname");
+            builder.OwnsOne(p => p.UserCredentials)
+                .Property(p => p.FirstName)
+                .HasMaxLength(255)
+                .HasColumnName("Firstname");
 
-            builder.OwnsOne(p => p.Credentials)
-                .Property(p => p.LastName).HasColumnName("Lastname");
-        } 
+            builder.OwnsOne(p => p.UserCredentials)
+                .Property(p => p.LastName)
+                .HasMaxLength(255)
+                .HasColumnName("Lastname");
+        }
     }
 }
