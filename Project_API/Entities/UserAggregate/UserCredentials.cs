@@ -2,13 +2,13 @@
 {
     public class UserCredentials : ValueObject
     {
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
+        public string FirstName { get;  set; }
+        public string LastName { get;  set; }
         private UserCredentials() { }
         public UserCredentials(string firstname, string lastname)
         {
-            firstname = FirstName;
-            lastname = LastName;
+            FirstName = firstname;
+            LastName = lastname;
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

@@ -30,9 +30,13 @@
         {
             _dbcontext.Entry(user).State = EntityState.Modified;
         }
-        public void Save()
+        public void SaveChanges()
         {
             _dbcontext.SaveChanges();
+        }
+        public void SaveChangesAsync()
+        {
+            _dbcontext.SaveChangesAsync();
         }
         private bool disposed = false;
 

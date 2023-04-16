@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DemoDatabaseContext))]
-    partial class DemoDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230416140044_User_Responsibility2_without_ForbiddenList3")]
+    partial class User_Responsibility2_without_ForbiddenList3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

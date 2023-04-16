@@ -9,9 +9,9 @@
         public HealthCondition Condition { get; private set; }
         public class HealthCondition : Enumeration 
         {
-            public static HealthCondition Healthy = new HealthCondition(1, nameof(Healthy));
-            public static HealthCondition Sick = new HealthCondition(2, nameof(Sick));
-            public HealthCondition(int id, string name) : base(id, name) { }
+            public static HealthCondition Healthy = new HealthCondition("Healthy", nameof(Healthy));
+            public static HealthCondition Sick = new HealthCondition("Sick", nameof(Sick));
+            public HealthCondition(string id, string name) : base(id, name) { }
         }
     }
 }

@@ -11,11 +11,16 @@ namespace Project_API.Features.User
 {
     public class DeleteUserController : ApiControllerBase
     {
-
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> Delete([FromRoute]User_ID id)
+        public async Task<ActionResult<string>> Delete([FromRoute] User_ID id)
         {
-            await Mediator.Send(new DeleteUserCommand { Id = id });
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new DeleteUserCommand { Id = id };
+            await Mediator.Send(command);
 
             return Ok();
         }
@@ -26,25 +31,28 @@ namespace Project_API.Features.User
     }
     internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, string>
     {
+        private readonly IUserRepository _userRepository;
         private readonly DemoDatabaseContext _dbcontext;
-        public DeleteUserCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
+        public DeleteUserCommandHandler(IUserRepository userRepository,DemoDatabaseContext dbcontext) {
+            _userRepository = userRepository; 
+            _dbcontext = dbcontext;
+
+        }
         public async Task<string> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = _dbcontext.Users.FirstOrDefault(x => x.User_UUID == request.Id);
-                if (user == null)
-                {
-                    throw new Exception("User not found");
-                }
-                _dbcontext.Entry(user).State = EntityState.Deleted;
-                _dbcontext.SaveChanges();
+                var user = _userRepository.GetUserByID(request.Id);
+                _userRepository.DeleteUser(user.User_UUID);//Check after
+                _userRepository.SaveChangesAsync();
                 return await Task.FromResult("User has been deleted");
+                
             }
             catch (Exception)
             {
                 throw new Exception("An error has occured");
             }
+            
         }
     }
 }

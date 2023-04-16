@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Project_API.Entities.AnimalAggregate;
 using Project_API.Entities.UserAggregate;
-using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal.HealthCondition;
 using static Enumeration;
-using static Project_API.Entities.AnimalAggregate.Animal;
+using static Animal;
 
 public class AnimalEntityConfiguration : IEntityTypeConfiguration<Animal>
 {

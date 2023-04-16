@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DemoDatabaseContext))]
-    partial class DemoDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230416133920_User_Responsibility2_without_ForbiddenList2")]
+    partial class User_Responsibility2_without_ForbiddenList2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,8 +156,7 @@ namespace Project_API.Migrations
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Species")
-                                .HasAnnotation("Relational:JsonPropertyName", "Name");
+                                .HasColumnName("Species");
 
                             b1.HasKey("Animal_UUID");
 

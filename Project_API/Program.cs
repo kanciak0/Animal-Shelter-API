@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Project_API.Common.Behaviours;
 using Project_API.Common.Mappings;
+using Project_API.Entities.Animal_ShelterAggregate;
+using Project_API.Entities.AnimalAggregate;
+using Project_API.Entities.UserAggregate;
 using Project_API.Features._Animals;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
@@ -17,8 +20,11 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-//  builder.Services.AddTransient<IValidator<DetachAnimalFromUserCommand>, DetachAnimalFromUserCommandValidator>();
-//  builder.Services.AddValidatorsFromAssembly(typeof(AssignAnimalToUserCommandValidator).Assembly);
+    builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+    builder.Services.AddScoped<IAnimalShelterRepository, AnimalShelterRepository>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    //  builder.Services.AddTransient<IValidator<DetachAnimalFromUserCommand>, DetachAnimalFromUserCommandValidator>();
+    //  builder.Services.AddValidatorsFromAssembly(typeof(AssignAnimalToUserCommandValidator).Assembly);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }
@@ -32,7 +38,6 @@ builder.Services.AddDbContext<DemoDatabaseContext>(options =>
     options.UseSqlServer(connectionString);
 
 });
-
 var app = builder.Build();
 {
     if (app.Environment.IsDevelopment())

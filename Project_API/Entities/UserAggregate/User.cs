@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Azure.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_API.Entities.UserAggregate
 {
@@ -12,6 +13,18 @@ namespace Project_API.Entities.UserAggregate
         public ICollection<UserAnimalsID> AnimalIds { get; set; } = new List<UserAnimalsID>();
 
         private User() { }
+        public static User CreateUser(string username, UserCredentials credentials, UserAddress address)
+        {
+            var user = new User
+            {
+                User_UUID = new User_ID(Guid.NewGuid()),
+                UserName = username,
+                UserCredentials = credentials,
+                UserAddress = address
+            };
+            return user;
+        }
+
         public void GiveAnimalToShelter(UserAnimalsID userAnimalsID)
         {
             if (userAnimalsID == null) throw new NotImplementedException();

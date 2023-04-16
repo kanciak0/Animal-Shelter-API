@@ -6,9 +6,11 @@ using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.Entities.AnimalAggregate;
 using Project_API.Infrastructure.Persistence;
+using System.Text.Json.Serialization;
+using static Animal;
 
 namespace Project_API.Controllers._Users
-{/*
+{
     public class CreateAnimalController : ApiControllerBase
     {
         [HttpPost()]
@@ -22,21 +24,21 @@ namespace Project_API.Controllers._Users
     {
         public string Name { get; set; }
         public Species Species { get; set; }
+        public HealthCondition HealthCondition { get; set; }
     }
     internal class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, string>
     {
-        private readonly DemoDatabaseContext _dbcontext;
-        public CreateAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
+        private readonly IAnimalRepository _animalRepository;
+        public CreateAnimalCommandHandler(IAnimalRepository animalrepository) { _animalRepository = animalrepository; }
         public Task<string> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
         {
-            var entity = Animal.Create(request.Name, request.Species);
-            _dbcontext.Animals.Add(entity);
-
-            _dbcontext.SaveChanges();
+            var entity = CreateNewAnimal(request.Name, request.Species, request.HealthCondition);
+            _animalRepository.InsertAnimal(entity);
+            _animalRepository.SaveChangesAsync();
             return Task.FromResult(entity.Name+" has been created");
         }
     }
-    public class CreateAnimalCommandValidator : AbstractValidator<CreateAnimalCommand>
+  /*  public class CreateAnimalCommandValidator : AbstractValidator<CreateAnimalCommand>
     {
         private readonly DemoDatabaseContext _dbcontext;
         public CreateAnimalCommandValidator(DemoDatabaseContext dbcontext)

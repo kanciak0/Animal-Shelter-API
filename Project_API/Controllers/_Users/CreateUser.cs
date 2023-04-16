@@ -3,14 +3,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
-using Project_API.Common.Mappings;
 using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace Project_API.Controllers._Users
-{/*
+{
     public class CreateUserController : ApiControllerBase
     {
         [HttpPost()]
@@ -29,15 +27,14 @@ namespace Project_API.Controllers._Users
     }
     internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
     {
-        private readonly DemoDatabaseContext _dbContext;
-        public CreateUserCommandHandler(DemoDatabaseContext dbcontext) { _dbContext = dbcontext; }
+        private readonly IUserRepository _userRepository;
+        public CreateUserCommandHandler(IUserRepository userRepository) { _userRepository = userRepository; }
         public Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = User.Create(request.UserName, request.Credentials, request.Address);
-            _dbContext.Users.Add(user);
-
-            _dbContext.SaveChanges();
-            return Task.FromResult(user.UserName+" user has been correctly created");
+            var entity = User.CreateUser(request.UserName, request.Credentials, request.Address);
+            _userRepository.InsertUser(entity);
+            _userRepository.SaveChangesAsync();
+            return Task.FromResult(entity.UserName + " has been created");
         }
     }
 
@@ -57,5 +54,5 @@ namespace Project_API.Controllers._Users
             return _dbContext.Users
                 .AllAsync(User => User.UserName != username, cancellationToken);
         }
-    }*/
+    }
 }

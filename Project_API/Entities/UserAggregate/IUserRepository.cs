@@ -7,6 +7,7 @@
         void InsertUser(User user);
         void DeleteUser(User_ID user_id);
         void UpdateUser(User user);
-        void Save();
+        void SaveChanges();
+        void SaveChangesAsync();
     }
 }

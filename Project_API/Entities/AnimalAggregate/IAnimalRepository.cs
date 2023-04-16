@@ -7,6 +7,8 @@
         void InsertAnimal(Animal animal);
         void DeleteAnimal(Animal_ID animalid);
         void UpdateAnimal(Animal animal);
-        void Save();
+        void SaveChanges();
+        void SaveChangesAsync();
+        
     }
 }

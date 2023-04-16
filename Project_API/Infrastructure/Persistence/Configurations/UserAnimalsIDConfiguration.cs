@@ -14,7 +14,6 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Property(e => e.Value)
                 .HasColumnName("Value")
                 .IsRequired();
-            
         }
     }
 }
