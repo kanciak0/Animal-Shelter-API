@@ -15,7 +15,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         ICollection<ShelteredAnimal> animals;
         ICollection<Client> clients;
         Adoption Adoptions;
-        private AnimalShelter()
+        public AnimalShelter()
         {
             Adoptions = new Adoption();
         }

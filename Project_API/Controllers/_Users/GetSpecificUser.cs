@@ -8,7 +8,7 @@ using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
 
 public class GetSpecificUserController : ApiControllerBase
-{/*
+{
     [HttpGet("{userId}")]
     public async Task<ActionResult<GetUserDto>> GetSpecific([FromQuery]User_ID userId)
     {
@@ -29,21 +29,23 @@ public class GetSpecificUserQuery : IRequest<GetUserDto>
 
 internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuery, GetUserDto>
 {
-    private readonly DemoDatabaseContext _dbContext;
+    private readonly IUserRepository _userRepository;
 
-    public GetSpecificUserQueryHandler(DemoDatabaseContext dbContext)
+    public GetSpecificUserQueryHandler(IUserRepository userRepository)
     {
-        _dbContext = dbContext;
+        _userRepository = userRepository;
     }
 
     public async Task<GetUserDto> Handle(GetSpecificUserQuery request, CancellationToken cancellationToken)
     {
-       var user = await _dbContext.Users
-                .Include(u => u.Animals)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.User_UUID == request.UserId, cancellationToken);
+        var user =  _userRepository.GetUserByID(request.UserId);
+
+        if (user == null)
+        {
+            return null;
+        }
 
         return user.MapToDto();
+    }
 
-    }*/
 }

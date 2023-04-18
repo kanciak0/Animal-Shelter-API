@@ -9,7 +9,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         public string ZipCode { get; private set; }
         public string Street { get; private set; }
         public int HouseNumber { get; private set; }
-        private ClientAddress(string city, string zipcode, string street, int housenumber)
+        public ClientAddress(string city, string zipcode, string street, int housenumber)
         {
             City = city;
             ZipCode = zipcode;

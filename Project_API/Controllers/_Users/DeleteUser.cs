@@ -32,27 +32,23 @@ namespace Project_API.Features.User
     internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, string>
     {
         private readonly IUserRepository _userRepository;
-        private readonly DemoDatabaseContext _dbcontext;
-        public DeleteUserCommandHandler(IUserRepository userRepository,DemoDatabaseContext dbcontext) {
+     
+        public DeleteUserCommandHandler(IUserRepository userRepository) 
+        {
             _userRepository = userRepository; 
-            _dbcontext = dbcontext;
-
         }
         public async Task<string> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = _userRepository.GetUserByID(request.Id);
-                _userRepository.DeleteUser(user.User_UUID);//Check after
+                _userRepository.DeleteUser(request.Id);//Check after
                 _userRepository.SaveChangesAsync();
                 return await Task.FromResult("User has been deleted");
-                
             }
             catch (Exception)
             {
                 throw new Exception("An error has occured");
             }
-            
         }
     }
 }

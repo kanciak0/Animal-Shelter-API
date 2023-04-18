@@ -10,9 +10,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
+using Project_API.Entities.UserAggregate;
 
 namespace Project_API.Features.User
-{/*
+{
     public class GetUserController : ApiControllerBase
     {
         [HttpGet()]
@@ -30,20 +31,22 @@ namespace Project_API.Features.User
 
     internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, List<GetUserDto>>
     {
-        private readonly DemoDatabaseContext _dbcontext;
+        private readonly IUserRepository _userRepository;
 
-        public GetUserQueryHandler(DemoDatabaseContext dbContext)
+        public GetUserQueryHandler(IUserRepository userRepository)
         {
-            _dbcontext = dbContext;
+            _userRepository = userRepository;
         }
 
         public async Task<List<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var users = await _dbcontext.Users
-                .Include(a =>a.Animals)
-                .AsNoTracking().ToListAsync(cancellationToken);
-            var getuser = users.Select(u => u.MapToDto()).ToList();
-            return getuser;
+            var user = _userRepository.GetUsers();
+            if (user == null)
+            {
+                return null;
+            }
+            var userDtos = user.Select(u => u.MapToDto()).ToList();
+            return userDtos;
         }
-    }*/
+    }
 }

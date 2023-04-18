@@ -24,17 +24,16 @@ namespace Project_API.Features.User
     }
     internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, string>
     {
-        private readonly DemoDatabaseContext _dbcontext;
-        public DeleteAnimalCommandHandler(DemoDatabaseContext dbcontext) { _dbcontext = dbcontext; }
+        private readonly IAnimalRepository _animalRepository;
+        public DeleteAnimalCommandHandler(IAnimalRepository animalrepository) { _animalRepository = animalrepository; }
         public Task<string> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var animal = _dbcontext.Animals.FirstOrDefault(x => x.Animal_UUID == request.Id)
-                ?? throw new Exception("User not found");
-                _dbcontext.Entry(animal).State = EntityState.Deleted;
-                _dbcontext.SaveChanges();
-                return Task.FromResult("Animal has been deleted");
+                var animal = _animalRepository.GetAnimalByID(request.Id);
+                _animalRepository.DeleteAnimal(animal.Animal_UUID);//Check after
+                _animalRepository.SaveChangesAsync();
+                return Task.FromResult("User has been deleted");
             }
             catch (Exception)
             {

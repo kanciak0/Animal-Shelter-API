@@ -10,6 +10,11 @@ namespace Project_API.Infrastructure.Persistence
 {
     public class DemoDatabaseContext : DbContext
     {
+        public DemoDatabaseContext()
+        {
+
+        }
+
         public DemoDatabaseContext(DbContextOptions<DemoDatabaseContext> options) : base(options)
         {
 

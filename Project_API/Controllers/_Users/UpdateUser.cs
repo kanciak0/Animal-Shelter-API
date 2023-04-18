@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿/*
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System;
 using System.Net;
 
 namespace Project_API.Features.User
-{/*
+{
     public class UpdateUserController : ApiControllerBase
     {
         [HttpPut("{uuid}")]
@@ -29,11 +30,11 @@ namespace Project_API.Features.User
 
     internal class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, string>
     {
-        private readonly DemoDatabaseContext _dbcontext;
+        private readonly IUserRepository _userRepository;
 
-        public UpdateUserCommandHandler(DemoDatabaseContext dbContext)
+        public UpdateUserCommandHandler(IUserRepository userRepository)
         {
-            _dbcontext = dbContext;
+            _userRepository = userRepository;
         }
 
         public async Task<string> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -57,6 +58,12 @@ namespace Project_API.Features.User
             {
                 throw new Exception(e.Message);
             }
+            var user = await _userRepository.GetUserByID(request.Uuid);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
         }
     }
     
@@ -85,6 +92,7 @@ namespace Project_API.Features.User
         {
             return Task.FromResult(uuid != null && uuid.Value != Guid.Empty);
         }
-    }*/
+    }
 }
 
+*/

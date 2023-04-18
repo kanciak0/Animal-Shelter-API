@@ -23,6 +23,7 @@ namespace Project_API.Controllers._Users
         public string UserName { get; set; }
         public UserCredentials Credentials { get; set; }
         public UserAddress Address { get; set; }
+        public int Age { get; set; }
 
     }
     internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
@@ -31,7 +32,8 @@ namespace Project_API.Controllers._Users
         public CreateUserCommandHandler(IUserRepository userRepository) { _userRepository = userRepository; }
         public Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = User.CreateUser(request.UserName, request.Credentials, request.Address);
+          //  var entity = new User(request.UserName, request.Credentials,request.Address,request.Age);
+            var entity = User.CreateUser(request.UserName, request.Credentials, request.Address,request.Age);
             _userRepository.InsertUser(entity);
             _userRepository.SaveChangesAsync();
             return Task.FromResult(entity.UserName + " has been created");

@@ -1,7 +1,4 @@
-﻿using Azure.Identity;
-using System.ComponentModel.DataAnnotations;
-
-namespace Project_API.Entities.UserAggregate
+﻿namespace Project_API.Entities.UserAggregate
 {
     public class User
     {
@@ -10,21 +7,23 @@ namespace Project_API.Entities.UserAggregate
         public string UserName { get; private set; }
         public UserCredentials UserCredentials { get; private set; }
         public UserAddress UserAddress { get; private set; }
-        public ICollection<UserAnimalsID> AnimalIds { get; set; } = new List<UserAnimalsID>();
+        public int Age { get; private set; }
+        public ICollection<UserAnimalsID> AnimalIds { get;private set; } = new List<UserAnimalsID>();
+
 
         private User() { }
-        public static User CreateUser(string username, UserCredentials credentials, UserAddress address)
+        public static User CreateUser(string username, UserCredentials credentials, UserAddress address, int age)
         {
             var user = new User
             {
                 User_UUID = new User_ID(Guid.NewGuid()),
                 UserName = username,
                 UserCredentials = credentials,
-                UserAddress = address
+                UserAddress = address,
+                Age = age
             };
             return user;
         }
-
         public void GiveAnimalToShelter(UserAnimalsID userAnimalsID)
         {
             if (userAnimalsID == null) throw new NotImplementedException();
@@ -44,11 +43,7 @@ namespace Project_API.Entities.UserAggregate
         {
             return User_UUID.Value.GetHashCode();
         }
-
-    }
-}
-/*
-  public static void AddUserAnimalException(User_ID user, ICollection<Animal_ID> animal, string path)
+       /* public static void AddUserAnimalException(User_ID user, ICollection<Animal_ID> animal, string path)
         {
             if (!File.Exists(path))
             {
@@ -77,4 +72,8 @@ namespace Project_API.Entities.UserAggregate
                     }
                 }
             }
-        } */
+        }*/
+    }
+}
+
+        
