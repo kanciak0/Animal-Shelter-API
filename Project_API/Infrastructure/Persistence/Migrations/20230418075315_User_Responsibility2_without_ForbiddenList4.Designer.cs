@@ -11,7 +11,7 @@ using Project_API.Infrastructure.Persistence;
 
 namespace Project_API.Migrations
 {
-    [DbContext(typeof(DemoDatabaseContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20230418075315_User_Responsibility2_without_ForbiddenList4")]
     partial class User_Responsibility2_without_ForbiddenList4
     {

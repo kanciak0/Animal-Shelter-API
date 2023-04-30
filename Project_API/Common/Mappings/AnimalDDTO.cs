@@ -10,4 +10,11 @@ public static class AnimalExtensions
             Animal_Uuid = animalId
         };
     }
+    public static GetAnimalDto MapAnimalConditionToDto(HealthCondition condition)
+    {
+        return new GetAnimalDto
+        {
+            Condition = condition.ToString()
+        };
+    }
 }

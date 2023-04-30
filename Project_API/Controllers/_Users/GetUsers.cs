@@ -1,16 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
-using Project_API.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
-using Project_API.Entities.UserAggregate;
 
 namespace Project_API.Features.User
 {
@@ -40,12 +32,12 @@ namespace Project_API.Features.User
 
         public async Task<List<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetUsers();
-            if (user == null)
+            var users = await Task.Run(() => _userRepository.Get());
+            if (users == null)
             {
                 return null;
             }
-            var userDtos = user.Select(u => u.MapToDto()).ToList();
+            var userDtos = users.Select(u => u.MapToDto()).ToList();
             return userDtos;
         }
     }

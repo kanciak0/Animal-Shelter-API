@@ -7,55 +7,47 @@ using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
 using Project_API.Common.Mappings;
+using Azure.Core;
+using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal;
+using Project_API.Entities.AnimalAggregate;
+using Project_API.Entities;
+using Microsoft.Extensions.Options;
+
 namespace Project_API.Features._AnimalShelter
 {
     public class AdoptController : ApiControllerBase
     {
 
         [HttpPost]
-        public async Task<ActionResult<string>> Adoptions(Animal_ID id)
+        public async Task<ActionResult<string>> Adoptions(AdoptCommand request)
         {
-           // await Mediator.Send(new DeleteAnimalCommand { Id = id });
-            return Ok();
+            var result = await Mediator.Send(request);
+            return Ok(result);
         }
     }
     public class AdoptCommand : IRequest<string>
     {
         public User_ID User_Id { get; set; }
         public ShelteredAnimal_ID ShelteredAnimal_ID { get; set; }
+        public Animal_ID Animal_ID { get; set; }
+        public int AnimalShelter_ID { get;set; }
     }
     internal class AdoptCommandHandler : IRequestHandler<AdoptCommand, string>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IAnimalShelterRepository _animalShelterRepository;
-        public AdoptCommandHandler(IUserRepository userRepository,IAnimalShelterRepository animalShelterRepository) 
+        private readonly IAdoptionUoW _adoptionUoW;
+        public AdoptCommandHandler(IAdoptionUoW adoptionuow)
         {
-            _animalShelterRepository = animalShelterRepository;
-            _userRepository = userRepository;
+            _adoptionUoW = adoptionuow;
         }
-        public Task<string> Handle(AdoptCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AdoptCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = _userRepository.GetUserByID(request.User_Id);
-                var client = Client.CreateClient(new Client_ID
-                    (user.User_UUID.Value), 
-                    user.UserName, 
-                    new ClientCredentials
-                    (user.UserCredentials.FirstName,
-                    user.UserCredentials.LastName), 
-                    new ClientAddress
-                    (user.UserAddress.Street,
-                    user.UserAddress.City, 
-                    user.UserAddress.State,
-                    user.UserAddress.HouseNumber),
-                    user.Age);
-                var shelteredAnimal = _animalShelterRepository.GetShelteredAnimalByID(request.ShelteredAnimal_ID);
-                user.AnimalIds.Add(new UserAnimalsID(shelteredAnimal.ShelteredAnimal_UUID.Value));
-                var animalshelter = new AnimalShelter();
-                animalshelter.Adopt(client.Client_UUID, shelteredAnimal.ShelteredAnimal_UUID, client, shelteredAnimal);
-                _userRepository.UpdateUser(user);
+                _adoptionUoW.DoWork(request);
+
+                return await Task.FromResult("Adoption has been succesfully made");
             }
+
             catch (Exception)
             {
                 throw new Exception("An error has occured");
@@ -63,3 +55,5 @@ namespace Project_API.Features._AnimalShelter
         }
     }
 }
+
+

@@ -15,7 +15,7 @@ public class AnimalEntityConfiguration : IEntityTypeConfiguration<Animal>
         builder.Property(a => a.Animal_UUID)
             .HasColumnName("Animal_UUID")
             .IsRequired()
-            .HasConversion(animalid => animalid.Value,
+            .HasConversion(animalid => animalid.ToGuid(),
             value => new Animal_ID(value));
 
         builder.Property(a => a.Name)
@@ -23,12 +23,16 @@ public class AnimalEntityConfiguration : IEntityTypeConfiguration<Animal>
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.OwnsOne(a => a.Species).Property(a => a._Species)
+        builder.OwnsOne(a => a.Species)
+            .Property(a => a._Species)
             .HasColumnName("Species")
             .HasMaxLength(50)
             .IsRequired();
-        builder.Property(x => x.Condition).
-            IsRequired()
-            .HasConversion(new EnumerationValueConverter<HealthCondition>());
+
+        builder.Property(x => x.Condition)
+               .HasConversion(
+                v => v.ToString(),
+                v => (HealthCondition)Enum
+                .Parse(typeof(HealthCondition), v));
     }
 }

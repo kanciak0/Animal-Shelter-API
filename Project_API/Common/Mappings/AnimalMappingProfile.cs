@@ -13,7 +13,8 @@ namespace Project_API.Common.Mappings
             {
                 Animal_Uuid = animal.Animal_UUID,
                 Name = animal.Name,
-                Species = animal.Species
+                Species = animal.Species,
+                Condition = animal.Condition.ToString()
             };
         }
     }

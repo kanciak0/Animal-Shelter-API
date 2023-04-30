@@ -30,20 +30,18 @@ namespace Project_API.Controllers._Users
     {
         private readonly IUserRepository _userRepository;
         public CreateUserCommandHandler(IUserRepository userRepository) { _userRepository = userRepository; }
-        public Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-          //  var entity = new User(request.UserName, request.Credentials,request.Address,request.Age);
-            var entity = User.CreateUser(request.UserName, request.Credentials, request.Address,request.Age);
-            _userRepository.InsertUser(entity);
-            _userRepository.SaveChangesAsync();
-            return Task.FromResult(entity.UserName + " has been created");
+            var entity = new User(request.UserName, request.Credentials, request.Address,request.Age);
+            _userRepository.Insert(entity);
+            await _userRepository.SaveChangesAsync();
+            return await Task.FromResult(entity.UserName + " has been created");
         }
     }
-
     public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
-        private readonly DemoDatabaseContext _dbContext;
-        public CreateUserCommandValidator(DemoDatabaseContext dbcontext)
+        private readonly DatabaseContext _dbContext;
+        public CreateUserCommandValidator(DatabaseContext dbcontext)
         {
             _dbContext = dbcontext;
             RuleFor(Username => Username.UserName)
@@ -58,3 +56,4 @@ namespace Project_API.Controllers._Users
         }
     }
 }
+

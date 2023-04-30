@@ -12,6 +12,3 @@ namespace Project_API.Common;
 
         protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetService<ISender>()!;
     }
-    
-    
-

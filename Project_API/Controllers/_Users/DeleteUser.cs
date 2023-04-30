@@ -41,8 +41,8 @@ namespace Project_API.Features.User
         {
             try
             {
-                _userRepository.DeleteUser(request.Id);//Check after
-                _userRepository.SaveChangesAsync();
+                _userRepository.Delete(request.Id.ToGuid());//Check after
+                await _userRepository.SaveChangesAsync();
                 return await Task.FromResult("User has been deleted");
             }
             catch (Exception)

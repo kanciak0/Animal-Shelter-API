@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Entities.Animal_ShelterAggregate;
-using static Enumeration;
 using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal;
-using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal.HealthCondition;
+
 
 namespace Project_API.Infrastructure.Persistence.Configurations
 {
@@ -18,7 +17,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Property(a =>a.ShelteredAnimal_UUID)
             .HasColumnName("ShelteredAnimal_UUID")
             .IsRequired()
-            .HasConversion(animalId => animalId.Value,
+            .HasConversion(animalId => animalId.ToGuid(),
             value => new ShelteredAnimal_ID(value));
 
             builder.OwnsOne(a => a.Species)
@@ -31,9 +30,15 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 .HasMaxLength(255)
                 .IsRequired();
 
+            builder.Property(x => x.Status)
+                .HasConversion(
+                 v => v.ToString(),
+                 v => (AdoptionStatus)Enum.Parse(typeof(AdoptionStatus), v));
+
             builder.Property(x => x.Condition)
-                .IsRequired()
-                .HasConversion(new EnumerationValueConverter<HealthCondition>());
+                   .HasConversion(
+                    v => v.ToString(),
+                    v => (HealthCondition)Enum.Parse(typeof(HealthCondition), v));
         }
     }
 }

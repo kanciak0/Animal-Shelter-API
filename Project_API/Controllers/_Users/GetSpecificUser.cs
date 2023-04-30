@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
 using Project_API.Entities.UserAggregate;
-using Project_API.Infrastructure.Persistence;
 
 public class GetSpecificUserController : ApiControllerBase
 {
@@ -38,14 +36,14 @@ internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuer
 
     public async Task<GetUserDto> Handle(GetSpecificUserQuery request, CancellationToken cancellationToken)
     {
-        var user =  _userRepository.GetUserByID(request.UserId);
+        var user =  _userRepository.GetByID(request.UserId.ToGuid());
 
         if (user == null)
         {
             return null;
         }
 
-        return user.MapToDto();
+        return await Task.FromResult(user.MapToDto());
     }
 
 }

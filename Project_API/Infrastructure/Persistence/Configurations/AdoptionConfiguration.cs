@@ -17,11 +17,11 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                .UseIdentityColumn()
                .HasColumnName("AdoptionID");
 
-            builder.Property(p => p.Client_ids)
+            builder.Property(p => p.Client_id)
             .HasConversion(new CollectionToStringConverter<Client_ID>())
                .HasColumnName("Client_IDs");
 
-            builder.Property(x => x.ShelteredAnimal_ids)
+            builder.Property(x => x.ShelteredAnimal_id)
             .HasConversion(new CollectionToStringConverter<ShelteredAnimal_ID>())
                .HasColumnName("ShelteredAnimal_IDs");
         }

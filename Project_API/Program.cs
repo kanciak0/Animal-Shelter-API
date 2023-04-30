@@ -6,10 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Project_API.Common.Behaviours;
 using Project_API.Common.Mappings;
-using Project_API.Entities.Animal_ShelterAggregate;
-using Project_API.Entities.AnimalAggregate;
-using Project_API.Entities.UserAggregate;
-using Project_API.Features._Animals;
+using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Diagnostics;
 using System.Reflection;
@@ -23,6 +20,11 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
     builder.Services.AddScoped<IAnimalShelterRepository, AnimalShelterRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IAdoptionUoW, AdoptionUoW>();
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<IAdoptionFactory, AdoptionFactory>();
+    builder.Services.AddScoped<IAnimalRepositoryFactory, AnimalRepositoryFactory>();
+    builder.Services.AddScoped<IUserRepositoryFactory, UserRepositoryFactory>();
     //  builder.Services.AddTransient<IValidator<DetachAnimalFromUserCommand>, DetachAnimalFromUserCommandValidator>();
     //  builder.Services.AddValidatorsFromAssembly(typeof(AssignAnimalToUserCommandValidator).Assembly);
     builder.Services.AddEndpointsApiExplorer();
@@ -31,13 +33,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-string dbConnection = Environment.GetEnvironmentVariable("DBCONNECTION") ?? "DefaultConnection";
+string dbConnection = Environment.GetEnvironmentVariable("DBConnection") ?? "DefaultConnection";
 string connectionString = builder.Configuration.GetConnectionString(dbConnection);
-builder.Services.AddDbContext<DemoDatabaseContext>(options =>
+builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     options.UseSqlServer(connectionString);
-
+    options.EnableSensitiveDataLogging();
 });
+
+
 var app = builder.Build();
 {
     if (app.Environment.IsDevelopment())

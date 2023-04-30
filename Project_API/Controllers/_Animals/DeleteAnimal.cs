@@ -1,12 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Entities.AnimalAggregate;
-using Project_API.Infrastructure.Persistence;
-using System.Diagnostics;
 
-namespace Project_API.Features.User
+namespace Project_API.Features._Animals
 {
     public class DeleteAnimalController : ApiControllerBase
     {
@@ -26,14 +23,14 @@ namespace Project_API.Features.User
     {
         private readonly IAnimalRepository _animalRepository;
         public DeleteAnimalCommandHandler(IAnimalRepository animalrepository) { _animalRepository = animalrepository; }
-        public Task<string> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var animal = _animalRepository.GetAnimalByID(request.Id);
-                _animalRepository.DeleteAnimal(animal.Animal_UUID);//Check after
-                _animalRepository.SaveChangesAsync();
-                return Task.FromResult("User has been deleted");
+                var animal = _animalRepository.GetByID(request.Id.ToGuid());
+                _animalRepository.Delete(animal.Animal_UUID.ToGuid());//Check after
+                await _animalRepository.SaveChangesAsync();
+                return await Task.FromResult("User has been deleted");
             }
             catch (Exception)
             {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
-using Project_API.Entities.AnimalAggregate;
 
 namespace Project_API.Features._Animals
 {
@@ -31,9 +30,9 @@ namespace Project_API.Features._Animals
             _animalRepository = animalRepository;
         }
 
-        public async Task<List<GetAnimalDto>> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
+        public  async Task<List<GetAnimalDto>> Handle(GetAnimalQuery request, CancellationToken cancellationToken)
         {
-            var animals = _animalRepository.GetAnimals();
+            var animals = await Task.Run(() => _animalRepository.Get());
             if (animals == null)
             {
                 return null;

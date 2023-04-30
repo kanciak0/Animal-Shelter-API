@@ -15,7 +15,7 @@ public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>
         builder.Property(c => c.Client_UUID)
             .HasColumnName("Client_ID")
             .IsRequired()
-            .HasConversion(clientId => clientId.Value,
+            .HasConversion(clientId => clientId.ToGuid(),
             value => new Client_ID(value));
 
         builder.OwnsOne(c => c.Address)
@@ -43,7 +43,10 @@ public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>
             .HasColumnName("LastName");
 
         builder.Property(x => x._Responsibility)
-                .IsRequired()
-                .HasConversion(new EnumerationValueConverter<Responsibility>());
+           .HasConversion(
+            v => v.ToString(),
+            v => (Responsibility)Enum
+            .Parse(typeof(Responsibility), v));
+
     }
 }

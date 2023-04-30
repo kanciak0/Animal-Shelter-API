@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Common.Mappings;
 using Project_API.DTO;
@@ -38,13 +37,13 @@ internal class GetSpecificAnimalQueryHandler : IRequestHandler<GetSpecificAnimal
 
     public async Task<GetAnimalDto> Handle(GetSpecificAnimalQuery request, CancellationToken cancellationToken)
     {
-        var animal =  _animalRepository.GetAnimalByID(request.Animal_ID);
+        var animal =  _animalRepository.GetByID(request.Animal_ID.ToGuid());
 
         if (animal == null)
         {
             return null;
         }
 
-        return animal.MapToDto();
+        return await Task.FromResult(animal.MapToDto());
     }
 }

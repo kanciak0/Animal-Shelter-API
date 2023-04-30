@@ -1,19 +1,13 @@
 ﻿using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.UserAggregate;
 
-namespace Project_API.Common.Mappings
+public static class ClientMapper
 {
-    public class ClientMappingProfile
+     public static Client CreateClient(User user, AnimalShelter shelter)
     {
-        public static Client FromUser(User user)
-        {
-            return Client.CreateClient(
-                client_UUID: new Client_ID(user.User_UUID.Value),
-                username: user.UserName,
-                credentials: new ClientCredentials(user.UserCredentials.FirstName, user.UserCredentials.LastName),
-                address: new ClientAddress(user.UserAddress.Street, user.UserAddress.City, user.UserAddress.State, user.UserAddress.HouseNumber),
-                age: user.Age
-            );
-        }
+        var clientCredentials = new ClientCredentials(user.UserCredentials.FirstName, user.UserCredentials.LastName);
+        var clientAddress = new ClientAddress(user.UserAddress.City, user.UserAddress.ZipCode, user.UserAddress.Street, user.UserAddress.HouseNumber);
+        var clientId = new Client_ID(user.User_UUID.ToGuid());
+        return shelter.RegisterClient(clientId, user.UserName, clientCredentials, clientAddress, user.Age);
     }
 }

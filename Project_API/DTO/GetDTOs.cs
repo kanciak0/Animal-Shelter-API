@@ -19,6 +19,13 @@ namespace Project_API.DTO
         public Animal_ID Animal_Uuid { get; set; }
         public string Name { get; set; }
         public Species Species { get; set; }
+        public string Condition { get; set; }
+    }
+
+    public enum HealthCondition
+    {
+        Sick,
+        Healthy
     }
 }
 

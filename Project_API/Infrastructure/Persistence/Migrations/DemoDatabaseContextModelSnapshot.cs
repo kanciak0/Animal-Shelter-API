@@ -10,7 +10,7 @@ using Project_API.Infrastructure.Persistence;
 
 namespace Project_API.Migrations
 {
-    [DbContext(typeof(DemoDatabaseContext))]
+    [DbContext(typeof(DatabaseContext))]
     partial class DemoDatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
