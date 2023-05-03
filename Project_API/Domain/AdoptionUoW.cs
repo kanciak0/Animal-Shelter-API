@@ -5,14 +5,12 @@ using Project_API.Features._AnimalShelter;
 
 public class AdoptionUoW:IAdoptionUoW
 {
-    private readonly IAnimalRepository _animalRepository;
     private readonly IAnimalShelterRepository _animalShelterRepository;
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AdoptionUoW(IAnimalRepository animalRepository, IUserRepository userRepository, IAnimalShelterRepository animalShelterRepository, IUnitOfWork unitOfWork)
+    public AdoptionUoW(IUserRepository userRepository, IAnimalShelterRepository animalShelterRepository, IUnitOfWork unitOfWork)
     {
-        _animalRepository = animalRepository;
         _animalShelterRepository = animalShelterRepository;
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
@@ -21,16 +19,14 @@ public class AdoptionUoW:IAdoptionUoW
     public void DoWork(AdoptCommand request)
     {
         var user = _userRepository.GetByID(new StronglyTypedId<User>(request.User_Id.ToGuid()));
-        var animal = _animalRepository.GetByID(new StronglyTypedId<Animal>(request.Animal_ID.ToGuid()));
         var shelter = _animalShelterRepository.GetByID(new StronglyTypedId<AnimalShelter>(request.AnimalShelter_ID.ToGuid()));
         var client = ClientMapper.CreateClient(user, shelter);
 
 
         shelter.GiveToAdoption(client.Client_UUID, request.ShelteredAnimal_ID);
 
-        user.Adopt(new StronglyTypedId<UserAnimalsID>(animal.Animal_UUID.ToGuid()));
+        user.Adopt(new StronglyTypedId<UserAnimalsID>(request.ShelteredAnimal_ID.ToGuid()));
 
-        _animalRepository.Update(animal);
         _userRepository.Update(user);
         _animalShelterRepository.Update(shelter);
 
