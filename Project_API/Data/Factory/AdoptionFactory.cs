@@ -14,11 +14,10 @@ public class AdoptionFactory : IAdoptionFactory
     public IAdoptionUoW CreateAdoptionUoW()
     {
         var context = new DatabaseContext(_options);
-        var animalRepository = new AnimalRepository(context);
         var animalShelterRepository = new AnimalShelterRepository(context);
         var userRepository = new UserRepository(context);
         var unitOfWork = new UnitOfWork(context);
-        var adoptionUOW = new AdoptionUoW(animalRepository, userRepository, animalShelterRepository, unitOfWork);
+        var adoptionUOW = new AdoptionUoW( userRepository, animalShelterRepository, unitOfWork);
         return adoptionUOW;
     }
 }

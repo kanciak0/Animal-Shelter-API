@@ -8,6 +8,7 @@ using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Reflection;
 
+
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
@@ -32,11 +33,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 string dbConnection = Environment.GetEnvironmentVariable("DBConnection") ?? "DefaultConnection";
 string connectionString = builder.Configuration.GetConnectionString(dbConnection);
-builder.Services.AddDbContext<DatabaseContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-    options.EnableSensitiveDataLogging();
-});
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
 
 
 var app = builder.Build();

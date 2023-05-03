@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Entities.Animal_ShelterAggregate;
 using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal;
 

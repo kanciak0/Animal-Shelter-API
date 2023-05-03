@@ -2,13 +2,14 @@
 using Project_API.Data;
 using Project_API.Domain.Abstract;
 using Project_API.Entities.UserAggregate;
+using Project_API.Infrastructure.Persistence;
 using System.Linq.Expressions;
 
 public class AnimalRepository : IAnimalRepository
 {
-    private readonly DbContext _context;
+    private readonly DatabaseContext _context;
 
-    public AnimalRepository(DbContext context)
+    public AnimalRepository(DatabaseContext context)
     {
         _context = context;
     }

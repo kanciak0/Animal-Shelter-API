@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Project_API.Common.Mappings;
 using Project_API.Entities.Animal_ShelterAggregate;
 
 namespace Project_API.Infrastructure.Persistence.Configurations

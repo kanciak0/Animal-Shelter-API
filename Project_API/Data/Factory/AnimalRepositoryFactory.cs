@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project_API.Infrastructure.Persistence;
 
 public class AnimalRepositoryFactory : IAnimalRepositoryFactory
 {
-    private readonly DbContext _context;
+    private readonly DatabaseContext _context;
 
-    public AnimalRepositoryFactory(DbContext context)
+    public AnimalRepositoryFactory(DatabaseContext context)
     {
         _context = context;
     }

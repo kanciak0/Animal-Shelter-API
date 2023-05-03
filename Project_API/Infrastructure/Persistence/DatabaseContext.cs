@@ -13,7 +13,9 @@ namespace Project_API.Infrastructure.Persistence
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
+
         }
+        public DatabaseContext() { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Animal> Animals { get; set; }
@@ -31,8 +33,6 @@ namespace Project_API.Infrastructure.Persistence
             new ShelteredAnimalEntityConfiguration().Configure(builder.Entity<ShelteredAnimal>());
             new AdoptionConfiguration().Configure(builder.Entity<Adoption>());
             new AnimalShelterConfiguration().Configure(builder.Entity<AnimalShelter>());
-            
-            
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project_API.Infrastructure.Persistence;
 
 public class UserRepositoryFactory : IUserRepositoryFactory
 {
-    private readonly DbContext _context;
+    private readonly DatabaseContext _context;
 
-    public UserRepositoryFactory(DbContext context)
+    public UserRepositoryFactory(DatabaseContext context)
     {
         _context = context;
     }

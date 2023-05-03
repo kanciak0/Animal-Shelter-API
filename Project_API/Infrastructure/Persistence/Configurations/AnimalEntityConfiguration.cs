@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Project_API.Entities.AnimalAggregate;
-using Project_API.Entities.UserAggregate;
-using static Enumeration;
 using static Animal;
 
 public class AnimalEntityConfiguration : IEntityTypeConfiguration<Animal>

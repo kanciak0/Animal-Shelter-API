@@ -8,7 +8,7 @@ namespace Project_API.Features.User
     public class DeleteUserController : ApiControllerBase
     {
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteUserResult>> Delete([FromRoute] User_ID id)
+        public async Task<ActionResult<DeleteUserResult>> Delete( User_ID id)
         {
             if (!ModelState.IsValid)
             {

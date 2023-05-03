@@ -1,13 +1,8 @@
-﻿using Project_API.Entities.Animal_ShelterAggregate;
-using Project_API.Entities.UserAggregate;
-using Project_API.Infrastructure.Persistence;
-using Project_API.Data;
-using Project_API.Domain.Abstract;
+﻿using Project_API.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DatabaseContext _context;
-
 
     public UnitOfWork(DatabaseContext context)
     {
@@ -31,7 +26,6 @@ public class UnitOfWork : IUnitOfWork
         }
         this.disposed = true;
     }
-
     public void Dispose()
     {
         Dispose(true);

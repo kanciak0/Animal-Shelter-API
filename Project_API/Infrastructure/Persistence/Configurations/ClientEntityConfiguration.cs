@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Project_API.Entities.Animal_ShelterAggregate;
-using static Enumeration;
 using static Project_API.Entities.Animal_ShelterAggregate.Client;
 
 public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>

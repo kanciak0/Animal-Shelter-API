@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Project_API.Common.Mappings;
-using Project_API.Entities;
 using Project_API.Entities.UserAggregate;
-using System.Reflection.Emit;
-using static Enumeration;
-using static Project_API.Entities.UserAggregate.User;
+
 
 namespace Project_API.Infrastructure.Persistence.Configurations
 {
