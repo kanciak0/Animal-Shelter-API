@@ -1,10 +1,7 @@
-﻿using Project_API.Domain;
-using Project_API.Domain.Abstract;
-using Project_API.Domain.Animal_ShelterAggregate;
+﻿using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Features._AnimalShelter;
-using Project_API.Infrastructure.Persistence;
 
 public class AdoptionUoW:IAdoptionUoW
 {
@@ -36,6 +33,7 @@ public class AdoptionUoW:IAdoptionUoW
         _animalRepository.Update(animal);
         _userRepository.Update(user);
         _animalShelterRepository.Update(shelter);
+
         _unitOfWork.SaveChangesAsync().Wait();
         _unitOfWork.Dispose();
     }
