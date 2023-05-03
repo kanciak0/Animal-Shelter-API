@@ -9,7 +9,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<AnimalShelter> builder)
         {
-            builder.HasKey(a => a.animal_shelter_Id);
+            builder.HasKey(a => a.AnimalShelter_ID);
 
             builder.HasMany(a => a.animals)
                 .WithOne(sa => sa.AnimalShelter)

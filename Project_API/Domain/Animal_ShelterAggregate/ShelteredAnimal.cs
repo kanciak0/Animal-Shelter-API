@@ -12,7 +12,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         public HealthCondition Condition { get; private set; }
         public AdoptionStatus Status { get; private set; }
         public AnimalShelter AnimalShelter { get; }
-        public int animal_shelter_Id { get; }
+        public AnimalShelter_ID animal_shelter_Id { get; }
         public enum HealthCondition
         {
             Sick,

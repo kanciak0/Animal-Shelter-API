@@ -1,14 +1,11 @@
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Project_API.Common.Behaviours;
-using Project_API.Common.Mappings;
+using Project_API.Domain;
+using Project_API.Domain.Abstract;
 using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Infrastructure.Persistence;
-using System.Diagnostics;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +22,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IAdoptionFactory, AdoptionFactory>();
     builder.Services.AddScoped<IAnimalRepositoryFactory, AnimalRepositoryFactory>();
     builder.Services.AddScoped<IUserRepositoryFactory, UserRepositoryFactory>();
+    builder.Services.AddScoped<IGiveAnimalToShelterUoW, GiveAnimalToShelterUoW>();
     //  builder.Services.AddTransient<IValidator<DetachAnimalFromUserCommand>, DetachAnimalFromUserCommandValidator>();
-    //  builder.Services.AddValidatorsFromAssembly(typeof(AssignAnimalToUserCommandValidator).Assembly);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }

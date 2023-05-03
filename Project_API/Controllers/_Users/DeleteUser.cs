@@ -1,18 +1,14 @@
-﻿using Azure.Identity;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project_API.Common;
 using Project_API.Entities.UserAggregate;
-using Project_API.Infrastructure.Persistence;
-using System.Diagnostics;
 
 namespace Project_API.Features.User
 {
     public class DeleteUserController : ApiControllerBase
     {
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> Delete([FromRoute] User_ID id)
+        public async Task<ActionResult<DeleteUserResult>> Delete([FromRoute] User_ID id)
         {
             if (!ModelState.IsValid)
             {
@@ -25,30 +21,43 @@ namespace Project_API.Features.User
             return Ok();
         }
     }
-    public class DeleteUserCommand : IRequest<string>
+    public class DeleteUserCommand : IRequest<DeleteUserResult>
     {
         public User_ID Id { get; set; }
     }
-    internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, string>
+    public class DeleteUserResult
+    {
+        public User_ID Id { get; set; }
+        public string Message { get; set; }
+    }
+    internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeleteUserResult>
     {
         private readonly IUserRepository _userRepository;
-     
-        public DeleteUserCommandHandler(IUserRepository userRepository) 
+
+        public DeleteUserCommandHandler(IUserRepository userRepository)
         {
-            _userRepository = userRepository; 
+            _userRepository = userRepository;
         }
-        public async Task<string> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteUserResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                _userRepository.Delete(request.Id.ToGuid());//Check after
+                var user = _userRepository.GetByID(request.Id.ToGuid());
+                _userRepository.Delete(user.User_UUID.ToGuid());//Check after
                 await _userRepository.SaveChangesAsync();
-                return await Task.FromResult("User has been deleted");
+                _userRepository.Dispose();
+
+                return new DeleteUserResult
+                {
+                    Id = request.Id,
+                    Message = "User has been deleted"
+                };
             }
             catch (Exception)
             {
-                throw new Exception("An error has occured");
+                throw new Exception("An error has occurred");
             }
         }
     }
 }
+

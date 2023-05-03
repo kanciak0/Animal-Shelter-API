@@ -15,9 +15,9 @@ namespace Project_API.Domain.Animal_ShelterAggregate
         {
             _dbcontext = dbcontext;
         }
-        public void Delete(int id)
+        public void Delete(StronglyTypedId<AnimalShelter> id)
         {
-            var entityToDelete = _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.animal_shelter_Id.Equals(id));
+            var entityToDelete = _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
             if (entityToDelete != null)
             {
                 _dbcontext.Set<AnimalShelter>().Remove(entityToDelete);
@@ -47,9 +47,9 @@ namespace Project_API.Domain.Animal_ShelterAggregate
             }
         }
 
-        public AnimalShelter GetByID(int id)
+        public AnimalShelter GetByID(StronglyTypedId<AnimalShelter> id)
         {
-            return _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.animal_shelter_Id.Equals(id));
+            return _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
         }
 
         public void Insert(AnimalShelter entity)
@@ -72,14 +72,14 @@ namespace Project_API.Domain.Animal_ShelterAggregate
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     _dbcontext.Dispose();
                 }
             }
-            this.disposed = true;
+            disposed = true;
         }
 
         public void Dispose()

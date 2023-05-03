@@ -9,28 +9,40 @@ namespace Project_API.Features._Animals
     {
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> Delete(Animal_ID id)
+        public async Task<ActionResult<DeleteAnimalResult>> Delete(Animal_ID id)
         {
             await Mediator.Send(new DeleteAnimalCommand { Id = id });
             return Ok();
         }
     }
-    public class DeleteAnimalCommand : IRequest<string>
+    public class DeleteAnimalCommand : IRequest<DeleteAnimalResult>
     {
         public Animal_ID Id { get; set; }
     }
-    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, string>
+    public class DeleteAnimalResult
+    {
+        public Animal_ID Id { get; set; }
+        public string Message { get; set; }
+    }
+    internal class DeleteAnimalCommandHandler : IRequestHandler<DeleteAnimalCommand, DeleteAnimalResult>
     {
         private readonly IAnimalRepository _animalRepository;
         public DeleteAnimalCommandHandler(IAnimalRepository animalrepository) { _animalRepository = animalrepository; }
-        public async Task<string> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteAnimalResult> Handle(DeleteAnimalCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var animal = _animalRepository.GetByID(request.Id.ToGuid());
                 _animalRepository.Delete(animal.Animal_UUID.ToGuid());//Check after
+
                 await _animalRepository.SaveChangesAsync();
-                return await Task.FromResult("User has been deleted");
+                _animalRepository.Dispose();
+                return await Task.FromResult(
+                    new DeleteAnimalResult
+                    {
+                        Id = request.Id,
+                        Message = "Animal has been succesfully deleted"
+                    });
             }
             catch (Exception)
             {

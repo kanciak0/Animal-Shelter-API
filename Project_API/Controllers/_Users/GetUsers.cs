@@ -30,7 +30,7 @@ namespace Project_API.Features.User
             _userRepository = userRepository;
         }
 
-        public async Task<List<GetUserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetUserDto>?> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             var users = await Task.Run(() => _userRepository.Get());
             if (users == null)

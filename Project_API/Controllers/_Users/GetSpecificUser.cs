@@ -34,7 +34,7 @@ internal class GetSpecificUserQueryHandler : IRequestHandler<GetSpecificUserQuer
         _userRepository = userRepository;
     }
 
-    public async Task<GetUserDto> Handle(GetSpecificUserQuery request, CancellationToken cancellationToken)
+    public async Task<GetUserDto?> Handle(GetSpecificUserQuery request, CancellationToken cancellationToken)
     {
         var user =  _userRepository.GetByID(request.UserId.ToGuid());
 

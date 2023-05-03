@@ -16,7 +16,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
        
         public Responsibility _Responsibility { get; private set; }
         public AnimalShelter AnimalShelter { get; }
-        public int animal_shelter_Id { get; }
+        public AnimalShelter_ID animal_shelter_Id { get; }
         public enum Responsibility
         {
             Responsible,

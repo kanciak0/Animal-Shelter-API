@@ -1,43 +1,59 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project_API.Common;
-using static Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal;
-using Project_API.Entities.AnimalAggregate;
+using Project_API.Domain.Abstract;
 using Project_API.Domain.Animal_ShelterAggregate;
+using Project_API.Entities.Animal_ShelterAggregate;
+using Project_API.Entities.UserAggregate;
 
 namespace Project_API.Features._AnimalShelter
 {
     public class GiveAnimalToShelterController : ApiControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<string>> Adoptions(GiveAnimalToShelterCommand request)
+        public async Task<ActionResult<GiveAnimalFromClientToShelterResult>> Adoptions(GiveAnimalFromClientToShelterCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
         }
     }
-    public class GiveAnimalToShelterCommand : IRequest<string>
+    public class GiveAnimalFromClientToShelterCommand : IRequest<GiveAnimalFromClientToShelterResult>
     {
-        public Animal_ID animal_id { get; set; }
-        public HealthCondition HealthCondition { get; set; }
+        public AnimalShelter_ID AnimalShelter_ID { get; set; }
+        public User_ID User_ID { get; set; }
+        public Client_ID Client_ID { get; set; }
+        public UserAnimalsID UserAnimalsID { get; set; }
     }
-    internal class GiveAnimalToShelterHandler : IRequestHandler<GiveAnimalToShelterCommand, string>
+    public class GiveAnimalFromClientToShelterResult
     {
-        private readonly IAnimalRepository _animalRepository;
-        private readonly IAnimalShelterRepository _animalShelterRepository;
-        public GiveAnimalToShelterHandler(IAnimalRepository animalrepository, IAnimalShelterRepository animalShelterRepository)
+        public AnimalShelter_ID AnimalShelter_ID { get; set; }
+        public User_ID User_ID { get; set; }
+        public Client_ID Client_ID { get; set; }
+        public UserAnimalsID UserAnimalsID { get; set; }
+        public string Message { get; set; }
+
+    }
+    internal class GiveAnimalToShelterHandler : IRequestHandler<GiveAnimalFromClientToShelterCommand, GiveAnimalFromClientToShelterResult>
+    {
+        private readonly IGiveAnimalToShelterUoW _giveAnimalToShelterUoW;
+        public GiveAnimalToShelterHandler(IGiveAnimalToShelterUoW giveAnimalToShelterUoW)
         {
-            _animalShelterRepository = animalShelterRepository;
-            _animalRepository = animalrepository;
+            _giveAnimalToShelterUoW = giveAnimalToShelterUoW;
         }
-        public async Task<string> Handle(GiveAnimalToShelterCommand request, CancellationToken cancellationToken)
+        public async Task<GiveAnimalFromClientToShelterResult> Handle(GiveAnimalFromClientToShelterCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                
-                return await Task.FromResult("Animal has been succesfully given to shelter");
+                _giveAnimalToShelterUoW.DoWork(request);
+                return await Task.FromResult(new GiveAnimalFromClientToShelterResult
+                {
+                    Message = "Animal has been successfully given to shelter",
+                    AnimalShelter_ID = request.AnimalShelter_ID,
+                    User_ID = request.User_ID,
+                    Client_ID = request.Client_ID,
+                    UserAnimalsID = request.UserAnimalsID
+                });
             }
-
             catch (Exception)
             {
                 throw new Exception("An error has occured");

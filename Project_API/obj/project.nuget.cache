@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q+uyO/IzDWi7alTVMUDsUl4jxfqm/pcM7wjpkTPja1NWGQalJPSTQhGBue2CV4m61SzpFgFho/Py++CrfLrW8g==",
+  "dgSpecHash": "izY6ay471wdgwh6jHiGVSs1E6VDiPJ3Ip8NmyLyhGLVMTPnvhZsOV97L0yxchOWKsQ+AzB2xHDHvocYZYS4+XQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\48533\\source\\repos\\CRUDApi-VerticalSliceArchitecture\\Project_API\\Project_API.csproj",
+  "projectFilePath": "C:\\Users\\48533\\source\\repos\\AnimalShelterAPI_DDD_CQRS\\Project_API\\Project_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\48533\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\48533\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

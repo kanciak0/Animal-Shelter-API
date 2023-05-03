@@ -28,10 +28,10 @@ namespace Project_API.Entities.UserAggregate
             var userAnimalId = new UserAnimalsID(animalId.ToGuid());
             AnimalIds.Add(userAnimalId);
         }
-        public void GiveAnimalToShelter(StronglyTypedId<UserAnimalsID> userAnimalsID)
+        public void GiveAnimalToShelter(StronglyTypedId<UserAnimalsID> userAnimalId)
         {
-            if (userAnimalsID == null) throw new ArgumentNullException(nameof(userAnimalsID));
-            var animalIdToRemove = new UserAnimalsID(userAnimalsID.ToGuid());
+            if (userAnimalId == null) throw new ArgumentNullException(nameof(userAnimalId));
+            var animalIdToRemove = new UserAnimalsID(userAnimalId.ToGuid());
             AnimalIds.Remove(animalIdToRemove);
         }
     }

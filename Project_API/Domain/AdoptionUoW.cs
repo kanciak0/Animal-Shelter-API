@@ -25,7 +25,7 @@ public class AdoptionUoW:IAdoptionUoW
     {
         var user = _userRepository.GetByID(new StronglyTypedId<User>(request.User_Id.ToGuid()));
         var animal = _animalRepository.GetByID(new StronglyTypedId<Animal>(request.Animal_ID.ToGuid()));
-        var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
+        var shelter = _animalShelterRepository.GetByID(new StronglyTypedId<AnimalShelter>(request.AnimalShelter_ID.ToGuid()));
         var client = ClientMapper.CreateClient(user, shelter);
 
 

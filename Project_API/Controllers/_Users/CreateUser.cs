@@ -12,13 +12,13 @@ namespace Project_API.Controllers._Users
     public class CreateUserController : ApiControllerBase
     {
         [HttpPost()]
-        public async Task<ActionResult<string>> Create(CreateUserCommand request)
+        public async Task<ActionResult<CreateUserResult>> Create(CreateUserCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
         }
     }
-    public class CreateUserCommand : IRequest<string>
+    public class CreateUserCommand : IRequest<CreateUserResult>
     {
         public string UserName { get; set; }
         public UserCredentials Credentials { get; set; }
@@ -26,16 +26,36 @@ namespace Project_API.Controllers._Users
         public int Age { get; set; }
 
     }
-    internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
+    public class CreateUserResult
+    {
+        public string UserName { get; set; }
+        public UserCredentials Credentials { get; set; }
+        public UserAddress Address { get; set; }
+        public int Age { get; set; }
+        public string Message { get; set; }
+
+    }
+    internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
     {
         private readonly IUserRepository _userRepository;
         public CreateUserCommandHandler(IUserRepository userRepository) { _userRepository = userRepository; }
-        public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<CreateUserResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var entity = new User(request.UserName, request.Credentials, request.Address,request.Age);
             _userRepository.Insert(entity);
             await _userRepository.SaveChangesAsync();
-            return await Task.FromResult(entity.UserName + " has been created");
+            _userRepository.Dispose();
+            return await Task.FromResult(
+                new CreateUserResult
+                {
+                    UserName = request.UserName,
+                    Credentials = request.Credentials,
+                    Address = request.Address,
+                    Age = request.Age,
+                    Message = $"(entity.Username) has been created"
+                }
+        
+           );
         }
     }
     public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>

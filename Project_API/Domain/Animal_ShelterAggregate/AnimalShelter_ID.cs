@@ -1,4 +1,4 @@
-﻿/*namespace Project_API.Entities.Animal_ShelterAggregate;
+﻿namespace Project_API.Entities.Animal_ShelterAggregate;
 
 public class AnimalShelter_ID : StronglyTypedId<AnimalShelter_ID>
 {
@@ -10,4 +10,4 @@ public class AnimalShelter_ID : StronglyTypedId<AnimalShelter_ID>
         return new AnimalShelter_ID(guid);
     }
 }
-*/
+
