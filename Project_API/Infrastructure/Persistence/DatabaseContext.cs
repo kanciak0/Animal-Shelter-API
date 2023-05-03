@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_API.Data;
 using Project_API.Entities.Animal_ShelterAggregate;
-using Project_API.Entities.AnimalAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence.Configurations;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Project_API.Infrastructure.Persistence
 {
@@ -33,7 +30,15 @@ namespace Project_API.Infrastructure.Persistence
             new ShelteredAnimalEntityConfiguration().Configure(builder.Entity<ShelteredAnimal>());
             new AdoptionConfiguration().Configure(builder.Entity<Adoption>());
             new AnimalShelterConfiguration().Configure(builder.Entity<AnimalShelter>());
+
+            builder.Entity<User>()
+            .HasMany(u => u.AnimalIds)
+            .WithOne()
+            .HasForeignKey(a => a.Animal_ID)
+            .OnDelete(DeleteBehavior.Cascade);
         }
+
     }
 }
+
 

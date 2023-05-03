@@ -1,5 +1,6 @@
 ﻿using Project_API.Domain.Abstract;
 using Project_API.Entities.AnimalAggregate;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
@@ -11,7 +12,11 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         public ShelteredAnimalSpecies Species { get; private set; }
         public HealthCondition Condition { get; private set; }
         public AdoptionStatus Status { get; private set; }
+
+        [NotMapped]
         public AnimalShelter AnimalShelter { get; }
+
+        [NotMapped]
         public AnimalShelter_ID animal_shelter_Id { get; }
         public enum HealthCondition
         {

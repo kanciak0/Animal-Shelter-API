@@ -13,7 +13,7 @@ namespace Project_API.Entities.UserAggregate
         public int Age { get; private set; }
         public ICollection<UserAnimalsID> AnimalIds { get; private set; } = new List<UserAnimalsID>();
 
-
+        private User() { }
         public User(string username, UserCredentials credentials, UserAddress address, int age)
         {
             User_UUID = new User_ID(Guid.NewGuid());

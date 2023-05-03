@@ -43,10 +43,6 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 .Property(p => p.LastName)
                 .HasMaxLength(255)
                 .HasColumnName("Lastname");
-            builder.HasMany(u => u.AnimalIds)
-            .WithOne()
-            .HasForeignKey(a => a.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
         }
     }  
 }

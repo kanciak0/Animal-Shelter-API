@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DemoDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230503200108_Fixed_Animal_Shelter")]
+    partial class Fixed_Animal_Shelter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,10 +166,10 @@ namespace Project_API.Migrations
 
             modelBuilder.Entity("UserAnimalsID", b =>
                 {
-                    b.Property<Guid>("Animal_ID")
+                    b.Property<Guid>("User_ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Animal_ID");
+                    b.HasKey("User_ID");
 
                     b.ToTable("UserAnimalsID");
                 });
@@ -395,7 +398,7 @@ namespace Project_API.Migrations
                 {
                     b.HasOne("Project_API.Entities.UserAggregate.User", null)
                         .WithMany("AnimalIds")
-                        .HasForeignKey("Animal_ID")
+                        .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

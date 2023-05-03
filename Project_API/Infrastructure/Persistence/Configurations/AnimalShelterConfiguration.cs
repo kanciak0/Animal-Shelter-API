@@ -10,6 +10,11 @@ namespace Project_API.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(a => a.AnimalShelter_ID);
 
+            builder.Property(a => a.AnimalShelter_ID)
+                .HasConversion(
+                    id => id.ToString(),
+                    str => AnimalShelter_ID.FromGuid(Guid.Parse(str)));
+
             builder.HasMany(a => a.animals)
                 .WithOne(sa => sa.AnimalShelter)
                 .HasForeignKey(sa => sa.animal_shelter_Id)
@@ -19,7 +24,6 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 .WithOne(c => c.AnimalShelter)
                 .HasForeignKey(c => c.animal_shelter_Id)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             builder.HasMany(a => a.adoptions)
                 .WithOne(ad => ad.AnimalShelter)

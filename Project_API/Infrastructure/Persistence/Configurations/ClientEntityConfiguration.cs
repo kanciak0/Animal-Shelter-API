@@ -7,6 +7,9 @@ public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>
     {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
+        builder.Ignore(a => a.animal_shelter_Id);
+        builder.Ignore(a => a.AnimalShelter);
+
         builder.ToTable("Clients");
 
         builder.HasKey(c => c.Client_UUID);

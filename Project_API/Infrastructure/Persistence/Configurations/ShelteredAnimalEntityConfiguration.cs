@@ -10,6 +10,9 @@ namespace Project_API.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ShelteredAnimal> builder)
         {
+            builder.Ignore(a => a.animal_shelter_Id);
+            builder.Ignore(a => a.AnimalShelter);
+
             builder.ToTable("ShelteredAnimal");
             builder.HasKey(a => a.ShelteredAnimal_UUID);
 

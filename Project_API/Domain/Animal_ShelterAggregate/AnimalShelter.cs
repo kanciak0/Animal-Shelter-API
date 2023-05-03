@@ -9,7 +9,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         public ICollection<ShelteredAnimal> animals;
         public ICollection<Client> clients;
         public ICollection<Adoption> adoptions;
-
+        private AnimalShelter() { }
         public AnimalShelter(ICollection<ShelteredAnimal> animals, ICollection<Client> clients, ICollection<Adoption> adoptions)
         {
             AnimalShelter_ID = new AnimalShelter_ID(Guid.NewGuid());
