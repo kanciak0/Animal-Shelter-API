@@ -9,7 +9,7 @@ namespace Project_API.Common.Mappings
         public static ShelteredAnimal CreateShelteredAnimal(Animal animal, IAnimalRegistrationService animalRegistrationService)
         {
             var shelteredAnimalId = new ShelteredAnimal_ID(animal.Animal_UUID.ToGuid());
-            var shelteredAnimalSpecies = new ShelteredAnimalSpecies(animal.Species._Species);
+            var shelteredAnimalSpecies = new ShelteredAnimalSpecies(animal.Species.Breed);
             var healthCondition = animal.Condition switch
             {
                 Animal.HealthCondition.Healthy => ShelteredAnimal.HealthCondition.Healthy,

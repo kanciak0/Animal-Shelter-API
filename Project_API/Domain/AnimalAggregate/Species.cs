@@ -4,22 +4,19 @@ namespace Project_API.Entities.AnimalAggregate
 {
     public class Species : ValueObject
     {
-        [JsonPropertyName("Name")]
-        [JsonInclude]
-        public string _Species { get; private set; }
+        public string Breed { get; private set; }
 
         private Species() { }
 
        
-        public Species(string species)
+        public Species(string breed)
         {
-            _Species = species;
+            Breed = breed;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return _Species;
-
+            yield return Breed;
         }
     }
 }

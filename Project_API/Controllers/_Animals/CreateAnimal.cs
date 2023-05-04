@@ -41,7 +41,6 @@ namespace Project_API.Controllers._Users
 
             _animalRepository.Insert(entity);
             await _animalRepository.SaveChangesAsync();
-            _animalRepository.Dispose();
 
             return await Task.FromResult(new CreateAnimalResult
             {
@@ -52,4 +51,5 @@ namespace Project_API.Controllers._Users
             });
         }
     }
+
 }

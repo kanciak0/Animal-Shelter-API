@@ -3,14 +3,7 @@ using System.Text.Json.Serialization;
 
 public class Animal
 {
-    public Animal(Animal_ID animal_UUID, string name, Species species, HealthCondition condition)
-    {
-        Animal_UUID = animal_UUID;
-        Name = name;
-        Species = species;
-        Condition = condition;
-    }
-
+ 
     public Animal() { }
     public Animal_ID Animal_UUID { get; private set; }
     public string Name { get; private set; }
@@ -25,6 +18,14 @@ public class Animal
     {
         return new Animal { Animal_UUID = uuid, Species = species, Name = name };
     }
+    public Animal(Animal_ID animal_UUID, string name, Species species, HealthCondition condition)
+    {
+        Animal_UUID = animal_UUID;
+        Name = name;
+        Species = species;
+        Condition = condition;
+    }
+
     /*
     public class HealthCondition : Enumeration
     {
