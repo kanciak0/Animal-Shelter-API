@@ -52,7 +52,7 @@ namespace Project_API.Controllers._Users
                     Credentials = request.Credentials,
                     Address = request.Address,
                     Age = request.Age,
-                    Message = $"(entity.Username) has been created"
+                    Message = request.UserName+" has been created"
                 }
         
            );
