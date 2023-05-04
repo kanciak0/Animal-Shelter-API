@@ -1,12 +1,15 @@
-﻿using Project_API.Domain.Abstract;
+﻿using Project_API.Domain;
+using Project_API.Domain.Abstract;
 using Project_API.Entities.AnimalAggregate;
+using System.Text.Json.Serialization;
 
 namespace Project_API.Entities.UserAggregate
 {
     public class User
     {
-
+        [JsonConverter(typeof(StronglyTypedIdJsonConverter<User_ID>))]
         public User_ID User_UUID { get; private set; }
+
         public string UserName { get; private set; }
         public UserCredentials UserCredentials { get; private set; }
         public UserAddress UserAddress { get; private set; }

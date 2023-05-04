@@ -2,17 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Project_API.Common;
 using Project_API.Domain.Abstract;
-using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.AnimalAggregate;
-using Project_API.Entities.UserAggregate;
 
 namespace Project_API.Features._AnimalShelter
 {
     public class FindStrayAnimal : ApiControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<FindStrayAnimalResult>> Adoptions(FindStrayAnimalCommand request)
+        public async Task<ActionResult<FindStrayAnimalResult>> Adoptions([FromBody]FindStrayAnimalCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);

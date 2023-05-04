@@ -1,12 +1,17 @@
-﻿using Project_API.Domain.Abstract;
+﻿using Project_API.Domain;
+using Project_API.Domain.Abstract;
 using Project_API.Entities.AnimalAggregate;
+using Project_API.Entities.UserAggregate;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
     public class ShelteredAnimal
     {
         private ShelteredAnimal() { }
+
+        [JsonConverter(typeof(StronglyTypedIdJsonConverter<ShelteredAnimal_ID>))]
         public ShelteredAnimal_ID ShelteredAnimal_UUID { get; private set; }
         public string Name { get; private set; }
         public ShelteredAnimalSpecies Species { get; private set; }

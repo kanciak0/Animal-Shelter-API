@@ -1,12 +1,17 @@
-﻿using Project_API.Domain.Abstract;
+﻿using Project_API.Domain;
+using Project_API.Domain.Abstract;
 using Project_API.DTO;
+using Project_API.Entities.UserAggregate;
 using Project_API.Features._AnimalShelter;
+using System.Text.Json.Serialization;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
     public class AnimalShelter : IClientRegistrationService,IAnimalRegistrationService
     {
+        [JsonConverter(typeof(StronglyTypedIdJsonConverter<AnimalShelter_ID>))]
         public AnimalShelter_ID AnimalShelter_ID { get; private set; }
+
         public ICollection<ShelteredAnimal> animals;
         public ICollection<Client> clients;
         public ICollection<Adoption> adoptions;
