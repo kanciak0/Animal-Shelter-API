@@ -23,7 +23,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             value => new ShelteredAnimal_ID(value));
 
             builder.OwnsOne(a => a.Species)
-                .Property(a => a._ShelteredAnimalSpecies)
+                .Property(a => a.Breed)
                 .HasMaxLength(255)
                 .HasColumnName("ShelteredAnimalSpecies");
 

@@ -13,7 +13,7 @@ public class Animal
     {
         Sick,
         Healthy
-    }
+    } 
     public static Animal CreateAnimal(Animal_ID uuid, string name, Species species)
     {
         return new Animal { Animal_UUID = uuid, Species = species, Name = name };
@@ -25,8 +25,7 @@ public class Animal
         Species = species;
         Condition = condition;
     }
-
-    /*
+    /* 
     public class HealthCondition : Enumeration
     {
         public static HealthCondition Healthy = new("Healthy", nameof(Healthy));

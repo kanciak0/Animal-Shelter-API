@@ -1,4 +1,5 @@
 ﻿using Project_API.Domain.Abstract;
+using Project_API.DTO;
 using Project_API.Features._AnimalShelter;
 
 namespace Project_API.Entities.Animal_ShelterAggregate

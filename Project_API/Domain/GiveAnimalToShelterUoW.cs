@@ -21,9 +21,9 @@ namespace Project_API.Domain
         }
         public void DoWork(GiveAnimalFromClientToShelterCommand request)
         {
-            var user = _userRepository.GetByID(new StronglyTypedId<User>(request.User_ID.ToGuid()));
-            var shelter = _animalShelterRepository.GetByID(new StronglyTypedId<AnimalShelter>(request.AnimalShelter_ID.ToGuid()));
-            var animalIdToRemove = new UserAnimalsID(request.UserAnimalsID.ToGuid());
+            var user = _userRepository.GetByID(request.User_ID.ToGuid());
+            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID.ToGuid());
+            var animalIdToRemove = request.UserAnimalsID;
             var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove);
 
 

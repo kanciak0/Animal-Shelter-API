@@ -2,27 +2,18 @@
 {
     public class ShelteredAnimalSpecies: ValueObject
     {
-        public string _ShelteredAnimalSpecies { get; set; }
+        public string Breed { get; set; }
 
         private ShelteredAnimalSpecies() { }
 
         public ShelteredAnimalSpecies(string shelteredanimalspecies)
         {
-            _ShelteredAnimalSpecies = shelteredanimalspecies;
-            if (shelteredanimalspecies != "Dog")
-            {
-                throw new ArgumentException();
-            }
-            else if (shelteredanimalspecies != "Cat")
-            {
-                throw new ArgumentException();
-            }
+            Breed = shelteredanimalspecies;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return _ShelteredAnimalSpecies;
-
+            yield return Breed;
         }
     }
 }

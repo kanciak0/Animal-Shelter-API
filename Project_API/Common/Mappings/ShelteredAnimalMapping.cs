@@ -6,7 +6,7 @@ namespace Project_API.Common.Mappings
 {
     public static class ShelteredAnimalMapping
     {
-        public static ShelteredAnimal CreateShelteredAnimal(Animal animal, IAnimalRegistrationService animalRegistrationService)
+        public static ShelteredAnimal CreateShelteredAnimalFromUserpet(Animal animal, IAnimalRegistrationService animalRegistrationService)
         {
             var shelteredAnimalId = new ShelteredAnimal_ID(animal.Animal_UUID.ToGuid());
             var shelteredAnimalSpecies = new ShelteredAnimalSpecies(animal.Species.Breed);
@@ -24,6 +24,21 @@ namespace Project_API.Common.Mappings
         {
             return new ShelteredAnimal_ID(userAnimalsId.ToGuid());
         }
+        public static ShelteredAnimal ToShelteredAnimal(Animal animal)
+        {
+            var shelteredAnimal = new ShelteredAnimal(
+                ShelteredAnimal_ID.FromGuid(animal.Animal_UUID.ToGuid()), // Set ShelteredAnimal_ID to Animal_ID
+                animal.Name,
+                new ShelteredAnimalSpecies(animal.Species.Breed)
+            );
+            shelteredAnimal.SetCondition(animal.Condition == Animal.HealthCondition.Sick ?
+                ShelteredAnimal.HealthCondition.Sick : ShelteredAnimal.HealthCondition.Healthy);
+
+            return shelteredAnimal;
+        }
+
+
+
         /* #TODO: make it work :)
             public static Animal CreateAnimal(ShelteredAnimal shelteredAnimal, IAnimalRegistrationService animalRegistrationService)
             {

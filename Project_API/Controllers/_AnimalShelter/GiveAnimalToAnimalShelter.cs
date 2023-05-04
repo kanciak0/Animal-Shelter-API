@@ -47,11 +47,11 @@ namespace Project_API.Features._AnimalShelter
                 _giveAnimalToShelterUoW.DoWork(request);
                 return await Task.FromResult(new GiveAnimalFromClientToShelterResult
                 {
-                    Message = "Animal has been successfully given to shelter",
                     AnimalShelter_ID = request.AnimalShelter_ID,
                     User_ID = request.User_ID,
                     Client_ID = request.Client_ID,
-                    UserAnimalsID = request.UserAnimalsID
+                    UserAnimalsID = request.UserAnimalsID,
+                    Message = "Animal has been successfully given to shelter"
                 });
             }
             catch (Exception)
