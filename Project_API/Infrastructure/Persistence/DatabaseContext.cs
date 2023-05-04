@@ -37,7 +37,6 @@ namespace Project_API.Infrastructure.Persistence
             .HasForeignKey(a => a.Animal_ID)
             .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }
 

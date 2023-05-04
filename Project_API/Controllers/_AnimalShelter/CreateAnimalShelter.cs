@@ -11,7 +11,7 @@ namespace Project_API.Features._AnimalShelter
     public class CreateAnimalShelter : ApiControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<string>> Adoptions(CreateAnimalShelterCommand request)
+        public async Task<ActionResult<string>> Adoptions([FromBody]CreateAnimalShelterCommand request)
         {
             var result = await Mediator.Send(request);
             return Ok(result);
@@ -31,15 +31,16 @@ namespace Project_API.Features._AnimalShelter
         {
             try
             {
+                var animalShelterID = AnimalShelter_ID.NewID();
                 var animals = new List<ShelteredAnimal>();
                 var clients = new List<Client>();
                 var adoptions = new List<Adoption>();
-                var shelter = new AnimalShelter(animals, clients, adoptions);
+                var shelter = new AnimalShelter(animalShelterID,animals, clients, adoptions);
 
                 _animalShelterRepository.Insert(shelter);
                 await _animalShelterRepository.SaveChangesAsync();
                 _animalShelterRepository.Dispose();
-                return await Task.FromResult("Animal has been succesfully given to shelter");
+                return await Task.FromResult("AnimalShelter has been succesfully made");
             }
             catch (Exception)
             {

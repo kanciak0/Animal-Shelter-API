@@ -9,5 +9,9 @@ public class AnimalShelter_ID : StronglyTypedId<AnimalShelter_ID>
     {
         return new AnimalShelter_ID(guid);
     }
+    public static AnimalShelter_ID NewID()
+    {
+        return new AnimalShelter_ID(Guid.NewGuid());
+    }
 }
 
