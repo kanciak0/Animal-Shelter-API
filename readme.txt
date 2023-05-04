@@ -1,3 +1,4 @@
+-----------------------------------------------------------NOT DOCKERIZED YET, WILL BE FIXED ASAP---------------------------------------------------------------------
 AnimalShelterAPI Readme
 This API is a project that implements the Domain Driven Design (DDD) approach, using the Command Query Responsibility Segregation (CQRS) pattern, vertical sliced controllers, rich domain models and the repository pattern.
 
