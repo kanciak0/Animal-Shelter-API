@@ -1,6 +1,4 @@
-﻿using Project_API.Entities.UserAggregate;
-
-namespace Project_API.Entities.Animal_ShelterAggregate;
+﻿namespace Project_API.Entities.Animal_ShelterAggregate;
 
 public class ShelteredAnimal_ID : StronglyTypedId<ShelteredAnimal_ID>
 {
