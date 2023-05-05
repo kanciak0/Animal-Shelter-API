@@ -32,8 +32,8 @@ namespace Project_API.Features._Animals
         {
             try
             {
-                var animal = _animalRepository.GetByID(request.Id.ToGuid());
-                _animalRepository.Delete(animal.Animal_UUID.ToGuid());//Check after
+                var animal = _animalRepository.GetByID(request.Id);
+                _animalRepository.Delete(animal.Animal_UUID);//Check after
 
                 await _animalRepository.SaveChangesAsync();
                 _animalRepository.Dispose();

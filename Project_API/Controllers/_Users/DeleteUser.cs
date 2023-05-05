@@ -42,8 +42,8 @@ namespace Project_API.Features.User
         {
             try
             {
-                var user = _userRepository.GetByID(request.Id.ToGuid());
-                _userRepository.Delete(user.User_UUID.ToGuid());//Check after
+                var user = _userRepository.GetByID(request.Id);
+                _userRepository.Delete(user.User_UUID);//Check after
                 await _userRepository.SaveChangesAsync();
                 _userRepository.Dispose();
 

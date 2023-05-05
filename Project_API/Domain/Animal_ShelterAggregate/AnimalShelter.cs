@@ -1,15 +1,9 @@
-﻿using Project_API.Domain;
-using Project_API.Domain.Abstract;
-using Project_API.DTO;
-using Project_API.Entities.UserAggregate;
-using Project_API.Features._AnimalShelter;
-using System.Text.Json.Serialization;
+﻿using Project_API.Domain.Abstract;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
     public class AnimalShelter : IClientRegistrationService,IAnimalRegistrationService
     {
-        [JsonConverter(typeof(StronglyTypedIdJsonConverter<AnimalShelter_ID>))]
         public AnimalShelter_ID AnimalShelter_ID { get; private set; }
 
         public ICollection<ShelteredAnimal> animals;
@@ -24,10 +18,10 @@ namespace Project_API.Entities.Animal_ShelterAggregate
             this.adoptions = adoptions;
         }
 
-        public Adoption GiveToAdoption(StronglyTypedId<Client_ID> clientid, StronglyTypedId<ShelteredAnimal_ID> shelteredanimalid)
+        public Adoption GiveToAdoption(Client_ID clientid, ShelteredAnimal_ID shelteredanimalid)
         {
-            var shelteredanimal = animals.SingleOrDefault(a => a.ShelteredAnimal_UUID == shelteredanimalid);
-            var client = clients.SingleOrDefault(c => c.Client_UUID == clientid);
+            var shelteredanimal = animals.SingleOrDefault(a => a.ShelteredAnimal_UUID.Equals(shelteredanimalid));
+            var client = clients.SingleOrDefault(c => c.Client_UUID.Equals(clientid));
 
             if (client.Client_UUID == null) { throw new NotImplementedException(); }
             else if (client.Age <= 18) { throw new NotImplementedException(); }
@@ -41,7 +35,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
                 adoptions.Add(adoption);
                 return adoption;
             }
-        }
+         }
         public Client RegisterClient(Client_ID id, string username, ClientCredentials credentials, ClientAddress address, int age)
         {
             if (clients.Any(c => c.Client_UUID == id))
@@ -63,9 +57,9 @@ namespace Project_API.Entities.Animal_ShelterAggregate
             animals.Add(sheltered_animal);
             return sheltered_animal;
         }
-        public void TakeAnimalFromClient(StronglyTypedId<Client_ID> clientid, StronglyTypedId<ShelteredAnimal_ID> shelteredanimalid)
+        public void TakeAnimalFromClient(Client_ID clientid, ShelteredAnimal_ID shelteredanimalid)
         {
-            var client = clients.SingleOrDefault(c => c.Client_UUID == clientid);
+            var client = clients.SingleOrDefault(c => c.Client_UUID.Equals(clientid));
             var shelteredanimal = animals.SingleOrDefault(a => a.ShelteredAnimal_UUID == shelteredanimalid);
 
             if (client.Client_UUID == null)

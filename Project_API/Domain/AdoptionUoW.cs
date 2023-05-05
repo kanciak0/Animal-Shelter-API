@@ -18,14 +18,14 @@ public class AdoptionUoW:IAdoptionUoW
 
     public void DoWork(AdoptCommand request)
     {
-        var user = _userRepository.GetByID(request.User_Id.ToGuid());
-        var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID.ToGuid());
+        var user = _userRepository.GetByID(request.User_Id);
+        var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
         var client = ClientMapper.CreateClient(user, shelter);
 
 
         shelter.GiveToAdoption(client.Client_UUID, request.ShelteredAnimal_ID);
 
-        user.Adopt(request.ShelteredAnimal_ID.ToGuid());
+        user.Adopt(request.animal_Id,request.Name);
 
         _userRepository.Update(user);
         _animalShelterRepository.Update(shelter);

@@ -31,7 +31,7 @@ namespace Project_API.Features._AnimalShelter
         {
             try
             {
-                var animalShelterID = AnimalShelter_ID.NewID();
+                var animalShelterID = new AnimalShelter_ID(Guid.NewGuid());
                 var animals = new List<ShelteredAnimal>();
                 var clients = new List<Client>();
                 var adoptions = new List<Adoption>();

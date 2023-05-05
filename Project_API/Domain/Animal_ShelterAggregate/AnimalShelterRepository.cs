@@ -15,7 +15,7 @@ namespace Project_API.Domain.Animal_ShelterAggregate
         {
             _dbcontext = dbcontext;
         }
-        public void Delete(StronglyTypedId<AnimalShelter> id)
+        public void Delete(StronglyTypedId<Guid> id)
         {
             var entityToDelete = _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
             if (entityToDelete != null)
@@ -47,7 +47,7 @@ namespace Project_API.Domain.Animal_ShelterAggregate
             }
         }
 
-        public AnimalShelter GetByID(StronglyTypedId<AnimalShelter> id)
+        public AnimalShelter GetByID(StronglyTypedId<Guid> id)
         {
             return _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
         }

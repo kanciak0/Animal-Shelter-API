@@ -12,8 +12,8 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230418075315_User_Responsibility2_without_ForbiddenList4")]
-    partial class User_Responsibility2_without_ForbiddenList4
+    [Migration("20230505085148_Fixed_Animal_Shelterfdcs")]
+    partial class Fixed_Animal_Shelterfdcs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,9 +37,7 @@ namespace Project_API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("Name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Animal_UUID");
 
@@ -55,19 +53,34 @@ namespace Project_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Client_ids")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Client_IDs");
+                    b.Property<Guid>("Client_id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Client_id");
 
-                    b.Property<string>("ShelteredAnimal_ids")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ShelteredAnimal_IDs");
+                    b.Property<Guid>("ShelteredAnimal_id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ShelteredAnimal_id");
+
+                    b.Property<Guid>("animal_shelter_Id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("AnimalShelter_id");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("animal_shelter_Id");
+
                     b.ToTable("Adoption", (string)null);
+                });
+
+            modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", b =>
+                {
+                    b.Property<Guid>("AnimalShelter_ID")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("AnimalShelter_ID");
+
+                    b.HasKey("AnimalShelter_ID");
+
+                    b.ToTable("Shelters");
                 });
 
             modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.Client", b =>
@@ -87,7 +100,12 @@ namespace Project_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("animal_shelter_Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Client_UUID");
+
+                    b.HasIndex("animal_shelter_Id");
 
                     b.ToTable("Clients", (string)null);
                 });
@@ -108,7 +126,16 @@ namespace Project_API.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("Name");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("animal_shelter_Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ShelteredAnimal_UUID");
+
+                    b.HasIndex("animal_shelter_Id");
 
                     b.ToTable("ShelteredAnimal", (string)null);
                 });
@@ -131,21 +158,28 @@ namespace Project_API.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Project_API.Entities.UserAggregate.UserAnimalsID", b =>
+            modelBuilder.Entity("UserAnimals", b =>
                 {
-                    b.Property<Guid>("Value")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("AnimalId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Value");
+                        .HasColumnName("Animal_ID");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("User_UUID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Value");
+                    b.Property<Guid>("user_id")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("User_ID");
+
+                    b.HasKey("AnimalId");
 
                     b.HasIndex("User_UUID");
 
-                    b.ToTable("UserAnimalsIDs", (string)null);
+                    b.ToTable("UserAnimals", (string)null);
                 });
 
             modelBuilder.Entity("Animal", b =>
@@ -155,12 +189,11 @@ namespace Project_API.Migrations
                             b1.Property<Guid>("Animal_UUID")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("_Species")
+                            b1.Property<string>("Breed")
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Species")
-                                .HasAnnotation("Relational:JsonPropertyName", "Name");
+                                .HasColumnName("Breed");
 
                             b1.HasKey("Animal_UUID");
 
@@ -174,8 +207,25 @@ namespace Project_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.Adoption", b =>
+                {
+                    b.HasOne("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", "AnimalShelter")
+                        .WithMany("adoptions")
+                        .HasForeignKey("animal_shelter_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnimalShelter");
+                });
+
             modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.Client", b =>
                 {
+                    b.HasOne("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", "AnimalShelter")
+                        .WithMany("clients")
+                        .HasForeignKey("animal_shelter_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("Project_API.Entities.Animal_ShelterAggregate.ClientAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("Client_UUID")
@@ -236,18 +286,26 @@ namespace Project_API.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
+                    b.Navigation("AnimalShelter");
+
                     b.Navigation("Credentials")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimal", b =>
                 {
+                    b.HasOne("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", "AnimalShelter")
+                        .WithMany("animals")
+                        .HasForeignKey("animal_shelter_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("Project_API.Entities.Animal_ShelterAggregate.ShelteredAnimalSpecies", "Species", b1 =>
                         {
                             b1.Property<Guid>("ShelteredAnimal_UUID")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("_ShelteredAnimalSpecies")
+                            b1.Property<string>("Breed")
                                 .IsRequired()
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
@@ -260,6 +318,8 @@ namespace Project_API.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ShelteredAnimal_UUID");
                         });
+
+                    b.Navigation("AnimalShelter");
 
                     b.Navigation("Species")
                         .IsRequired();
@@ -341,11 +401,20 @@ namespace Project_API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project_API.Entities.UserAggregate.UserAnimalsID", b =>
+            modelBuilder.Entity("UserAnimals", b =>
                 {
                     b.HasOne("Project_API.Entities.UserAggregate.User", null)
                         .WithMany("AnimalIds")
                         .HasForeignKey("User_UUID");
+                });
+
+            modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", b =>
+                {
+                    b.Navigation("adoptions");
+
+                    b.Navigation("animals");
+
+                    b.Navigation("clients");
                 });
 
             modelBuilder.Entity("Project_API.Entities.UserAggregate.User", b =>

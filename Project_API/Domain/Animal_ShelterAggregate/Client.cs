@@ -1,11 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
-using Project_API.Domain;
-using System.Text.Json.Serialization;
-using Project_API.Domain.Abstract;
-using Project_API.Entities.UserAggregate;
-using Project_API.Migrations;
-
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
     public class Client
@@ -13,7 +6,6 @@ namespace Project_API.Entities.Animal_ShelterAggregate
 
         private Client() { }
 
-        [JsonConverter(typeof(StronglyTypedIdJsonConverter<Client_ID>))]
         public Client_ID Client_UUID { get; private set; }
         public string UserName { get; private set; }
         public ClientCredentials Credentials { get; private set; }

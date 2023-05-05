@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Project_API.Entities.Animal_ShelterAggregate;
+using Project_API.Entities.AnimalAggregate;
 
 namespace Project_API.Infrastructure.Persistence.Configurations
 {
@@ -20,20 +21,20 @@ namespace Project_API.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Client_id)
                 .HasConversion(
-                id => id.ToString(),
-                str => Client_ID.FromGuid(Guid.Parse(str)))
-                .HasColumnName("Client_ID");
-
+                clientid => clientid.Value,
+                value => new Client_ID(value))
+                .HasColumnName("Client_id");
+  
             builder.Property(x => x.ShelteredAnimal_id)
-                .HasConversion(id => id.ToString(),
-                str => ShelteredAnimal_ID.FromGuid(Guid.Parse(str)))
-                .HasColumnName("ShelteredAnimal_IDs");
+                .HasConversion(
+                shelteredanimalid => shelteredanimalid.Value,
+                value => new ShelteredAnimal_ID(value))
+                .HasColumnName("ShelteredAnimal_id");
 
             builder.Property(x => x.animal_shelter_Id)
-                .HasConversion(
-                 id => id.ToString(),
-                 str => AnimalShelter_ID.FromGuid(Guid.Parse(str)))
-            .HasColumnName("AnimalShelter_ID");
+                .HasConversion(animashelterlid => animashelterlid.Value,
+                value => new AnimalShelter_ID(value))
+                .HasColumnName("AnimalShelter_id");
         }
     }
 }

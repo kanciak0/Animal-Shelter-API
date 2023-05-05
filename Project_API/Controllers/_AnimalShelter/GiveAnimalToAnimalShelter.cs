@@ -22,14 +22,14 @@ namespace Project_API.Features._AnimalShelter
         public AnimalShelter_ID AnimalShelter_ID { get; set; }
         public User_ID User_ID { get; set; }
         public Client_ID Client_ID { get; set; }
-        public UserAnimalsID UserAnimalsID { get; set; }
+        public UserAnimals UserAnimalsID { get; set; }
     }
     public class GiveAnimalFromClientToShelterResult
     {
         public AnimalShelter_ID AnimalShelter_ID { get; set; }
         public User_ID User_ID { get; set; }
         public Client_ID Client_ID { get; set; }
-        public UserAnimalsID UserAnimalsID { get; set; }
+        public UserAnimals UserAnimalsID { get; set; }
         public string Message { get; set; }
 
     }

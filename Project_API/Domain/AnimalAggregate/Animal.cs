@@ -1,6 +1,6 @@
-﻿using Project_API.Domain;
-using Project_API.Entities.AnimalAggregate;
+﻿using Project_API.Entities.AnimalAggregate;
 using Project_API.Entities.UserAggregate;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 public class Animal
@@ -8,7 +8,6 @@ public class Animal
  
     public Animal() { }
 
-    [JsonConverter(typeof(StronglyTypedIdJsonConverter<Animal_ID>))]
     public Animal_ID Animal_UUID { get; private set; }
     public string Name { get; private set; }
     public Species Species { get; private set; }

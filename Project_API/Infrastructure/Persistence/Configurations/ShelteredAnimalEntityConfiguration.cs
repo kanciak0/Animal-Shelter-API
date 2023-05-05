@@ -19,7 +19,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Property(a =>a.ShelteredAnimal_UUID)
             .HasColumnName("ShelteredAnimal_UUID")
             .IsRequired()
-            .HasConversion(animalId => animalId.ToGuid(),
+            .HasConversion(animalId => animalId.Value,
             value => new ShelteredAnimal_ID(value));
 
             builder.OwnsOne(a => a.Species)

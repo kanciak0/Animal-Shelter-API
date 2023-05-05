@@ -1,17 +1,7 @@
-﻿namespace Project_API.Entities.Animal_ShelterAggregate;
+﻿using Newtonsoft.Json;
 
-public class AnimalShelter_ID : StronglyTypedId<AnimalShelter_ID>
-{
-    public AnimalShelter_ID(Guid value) : base(value)
-    {
-    }
-    public static AnimalShelter_ID FromGuid(Guid guid)
-    {
-        return new AnimalShelter_ID(guid);
-    }
-    public static AnimalShelter_ID NewID()
-    {
-        return new AnimalShelter_ID(Guid.NewGuid());
-    }
-}
+namespace Project_API.Entities.Animal_ShelterAggregate;
+
+public record AnimalShelter_ID(Guid Value) : StronglyTypedId<Guid>(Value);
+
 

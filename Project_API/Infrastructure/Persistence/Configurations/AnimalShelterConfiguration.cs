@@ -11,9 +11,11 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.HasKey(a => a.AnimalShelter_ID);
 
             builder.Property(a => a.AnimalShelter_ID)
-                .HasConversion(
-                    id => id.ToString(),
-                    str => AnimalShelter_ID.FromGuid(Guid.Parse(str)));
+                .HasColumnName("AnimalShelter_ID")
+                .IsRequired()
+                .HasConversion
+                (shelterid => shelterid.Value,
+                value => new AnimalShelter_ID(value));
 
             builder.HasMany(a => a.animals)
                 .WithOne(sa => sa.AnimalShelter)

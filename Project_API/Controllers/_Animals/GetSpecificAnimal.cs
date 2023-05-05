@@ -37,7 +37,7 @@ internal class GetSpecificAnimalQueryHandler : IRequestHandler<GetSpecificAnimal
 
     public async Task<GetAnimalDto> Handle(GetSpecificAnimalQuery request, CancellationToken cancellationToken)
     {
-        var animal =  _animalRepository.GetByID(request.Animal_ID.ToGuid());
+        var animal =  _animalRepository.GetByID(request.Animal_ID);
 
         if (animal == null)
         {

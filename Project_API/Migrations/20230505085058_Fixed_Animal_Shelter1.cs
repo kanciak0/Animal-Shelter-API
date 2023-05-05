@@ -5,7 +5,7 @@
 namespace Project_API.Migrations
 {
     /// <inheritdoc />
-    public partial class User_Responsibility2_without_ForbiddenList2 : Migration
+    public partial class Fixed_Animal_Shelter1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

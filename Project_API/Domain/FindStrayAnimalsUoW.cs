@@ -20,12 +20,12 @@ namespace Project_API.Domain
         }
         public void DoWork(FindStrayAnimalCommand request)
         {
-            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID.ToGuid());
-            var animal = _animalRepository.GetByID(request.Animal_ID.ToGuid());
+            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
+            var animal = _animalRepository.GetByID(request.Animal_ID);
             var shelteredAnimal = ShelteredAnimalMapping.ToShelteredAnimal(animal);
 
             shelter.RegisterShelteredAnimal(shelteredAnimal.ShelteredAnimal_UUID, request.AnimalName, shelteredAnimal.Species);
-            _animalRepository.Delete(request.Animal_ID.ToGuid());
+            _animalRepository.Delete(request.Animal_ID);
 
             _animalRepository.Update(animal);
             _animalShelterRepository.Update(shelter);

@@ -17,7 +17,7 @@ public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>
         builder.Property(c => c.Client_UUID)
             .HasColumnName("Client_ID")
             .IsRequired()
-            .HasConversion(clientId => clientId.ToGuid(),
+            .HasConversion(clientId => clientId.Value,
             value => new Client_ID(value));
 
         builder.OwnsOne(c => c.Address)

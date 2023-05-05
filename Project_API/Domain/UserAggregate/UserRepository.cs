@@ -14,7 +14,7 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public void Delete(StronglyTypedId<User> id)
+    public void Delete(StronglyTypedId<Guid> id)
     {
         var entityToDelete = _context.Set<User>().FirstOrDefault(e => e.User_UUID.Equals(id));
         if (entityToDelete != null)
@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public User GetByID(StronglyTypedId<User> id)
+    public User GetByID(StronglyTypedId<Guid> id)
     {
         return _context.Set<User>().FirstOrDefault(e => e.User_UUID.Equals(id));
     }

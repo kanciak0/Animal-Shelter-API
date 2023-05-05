@@ -2,9 +2,9 @@
 
 public interface IAnimalRepository:IDisposable
 {
-    void Delete(StronglyTypedId<Animal> id);
+    void Delete(StronglyTypedId<Guid> id);
     IEnumerable<Animal> Get(Expression<Func<Animal, bool>> filter = null, Func<IQueryable<Animal>, IOrderedQueryable<Animal>> orderBy = null, string includeProperties = "");
-    Animal GetByID(StronglyTypedId<Animal> id);
+    Animal GetByID(StronglyTypedId<Guid> id);
     void Insert(Animal entity);
     void Save();
     Task SaveChangesAsync();

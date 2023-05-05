@@ -36,7 +36,7 @@ namespace Project_API.Controllers._Users
         public CreateAnimalCommandHandler(IAnimalRepository animalrepository) { _animalRepository = animalrepository; }
         public async Task<CreateAnimalResult> Handle(CreateAnimalCommand request, CancellationToken cancellationToken)
         {
-            var animalId = Animal_ID.NewId();
+            var animalId =new Animal_ID(Guid.NewGuid());
             var entity = new Animal(animalId, request.Name, request.Species, request.HealthCondition);
 
             _animalRepository.Insert(entity);

@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 public interface IUserRepository: IDisposable
 {
-    void Delete(StronglyTypedId<User> id);
+    void Delete(StronglyTypedId<Guid> id);
     IEnumerable<User> Get(Expression<Func<User, bool>> filter = null, Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null, string includeProperties = "");
-    User GetByID(StronglyTypedId<User> id);
+    User GetByID(StronglyTypedId<Guid> id);
     void Insert(User entity);
     void Save();
     Task SaveChangesAsync();

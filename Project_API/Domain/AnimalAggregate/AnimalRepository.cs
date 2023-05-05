@@ -14,7 +14,7 @@ public class AnimalRepository : IAnimalRepository
         _context = context;
     }
 
-    public void Delete(StronglyTypedId<Animal> id)
+    public void Delete(StronglyTypedId<Guid> id)
     {
         var entityToDelete = _context.Set<Animal>().FirstOrDefault(e => e.Animal_UUID.Equals(id));
         if (entityToDelete != null)
@@ -46,7 +46,7 @@ public class AnimalRepository : IAnimalRepository
         }
     }
 
-    public Animal GetByID(StronglyTypedId<Animal> id)
+    public Animal GetByID(StronglyTypedId<Guid> id)
     {
         return _context.Set<Animal>().FirstOrDefault(e => e.Animal_UUID.Equals(id));
     }

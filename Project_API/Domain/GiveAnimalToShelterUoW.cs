@@ -21,13 +21,13 @@ namespace Project_API.Domain
         }
         public void DoWork(GiveAnimalFromClientToShelterCommand request)
         {
-            var user = _userRepository.GetByID(request.User_ID.ToGuid());
-            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID.ToGuid());
+            var user = _userRepository.GetByID(request.User_ID);
+            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
             var animalIdToRemove = request.UserAnimalsID;
-            var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove);
+            var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove.AnimalId.Value);
 
 
-            user.GiveAnimalToShelter(animalIdToRemove);
+            user.GiveAnimalToShelter(animalIdToRemove.AnimalId);
             shelter.TakeAnimalFromClient(request.Client_ID, shelteredAnimalId);
 
             _animalShelterRepository.Update(shelter);

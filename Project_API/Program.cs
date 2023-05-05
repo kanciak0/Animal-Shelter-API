@@ -11,7 +11,10 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverterFactory());
+    });
     builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
@@ -25,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IUserRepositoryFactory, UserRepositoryFactory>();
     builder.Services.AddScoped<IGiveAnimalToShelterUoW, GiveAnimalToShelterUoW>();
     builder.Services.AddScoped<IFindStrayAnimalsUoW,FindStrayAnimalsUoW>();
+   
     //  builder.Services.AddTransient<IValidator<DetachAnimalFromUserCommand>, DetachAnimalFromUserCommandValidator>();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

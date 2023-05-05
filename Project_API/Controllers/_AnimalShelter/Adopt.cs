@@ -30,6 +30,8 @@ namespace Project_API.Features._AnimalShelter
         public User_ID User_Id { get; set; }
         public ShelteredAnimal_ID ShelteredAnimal_ID { get; set; }
         public AnimalShelter_ID AnimalShelter_ID { get;set; }
+        public UserAnimalId animal_Id { get; set; }
+        public string Name { get; set; }
     }
     public class AdoptResult
     {

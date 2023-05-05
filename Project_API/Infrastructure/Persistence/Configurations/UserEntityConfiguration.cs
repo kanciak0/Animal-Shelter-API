@@ -15,7 +15,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Property(u => u.User_UUID)
             .HasColumnName("User_UUID")
             .IsRequired()
-            .HasConversion(userId => userId.ToGuid(),
+            .HasConversion(userId => userId.Value,
             value =>new User_ID(value));
 
 
@@ -43,6 +43,11 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 .Property(p => p.LastName)
                 .HasMaxLength(255)
                 .HasColumnName("Lastname");
+
+            builder.HasMany(u => u.AnimalIds)
+            .WithOne(u => u.User)
+            .HasForeignKey(a => a.user_id)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }  
 }

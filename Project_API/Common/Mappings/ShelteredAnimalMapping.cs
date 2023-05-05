@@ -8,7 +8,7 @@ namespace Project_API.Common.Mappings
     {
         public static ShelteredAnimal CreateShelteredAnimalFromUserpet(Animal animal, IAnimalRegistrationService animalRegistrationService)
         {
-            var shelteredAnimalId = new ShelteredAnimal_ID(animal.Animal_UUID.ToGuid());
+            var shelteredAnimalId = new ShelteredAnimal_ID(animal.Animal_UUID.Value);
             var shelteredAnimalSpecies = new ShelteredAnimalSpecies(animal.Species.Breed);
             var healthCondition = animal.Condition switch
             {
@@ -20,14 +20,14 @@ namespace Project_API.Common.Mappings
             shelteredAnimal.SetCondition(healthCondition);
             return animalRegistrationService.RegisterShelteredAnimal(shelteredAnimalId, animal.Name, shelteredAnimalSpecies);
         }
-        public static ShelteredAnimal_ID MapToShelteredAnimalId(UserAnimalsID userAnimalsId)
+        public static ShelteredAnimal_ID MapToShelteredAnimalId(Guid userAnimalsId)
         {
-            return new ShelteredAnimal_ID(userAnimalsId.ToGuid());
+            return new ShelteredAnimal_ID(userAnimalsId);
         }
         public static ShelteredAnimal ToShelteredAnimal(Animal animal)
         {
             var shelteredAnimal = new ShelteredAnimal(
-                ShelteredAnimal_ID.FromGuid(animal.Animal_UUID.ToGuid()), // Set ShelteredAnimal_ID to Animal_ID
+                new ShelteredAnimal_ID(animal.Animal_UUID.Value), // Set ShelteredAnimal_ID to Animal_ID
                 animal.Name,
                 new ShelteredAnimalSpecies(animal.Species.Breed)
             );
