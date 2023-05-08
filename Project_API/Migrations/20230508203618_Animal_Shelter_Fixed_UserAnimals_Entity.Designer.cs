@@ -12,8 +12,8 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230505085058_Fixed_Animal_Shelter1")]
-    partial class Fixed_Animal_Shelter1
+    [Migration("20230508203618_Animal_Shelter_Fixed_UserAnimals_Entity")]
+    partial class Animal_Shelter_Fixed_UserAnimals_Entity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

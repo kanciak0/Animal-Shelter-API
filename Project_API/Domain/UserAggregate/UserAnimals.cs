@@ -12,7 +12,6 @@ public class UserAnimals
         AnimalId = animalId;
         Name = name;
     }
-
     public User_ID user_id { get; }
 
     public UserAnimalId AnimalId { get; private set; }

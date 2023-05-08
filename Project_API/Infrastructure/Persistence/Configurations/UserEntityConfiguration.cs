@@ -46,8 +46,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
 
             builder.HasMany(u => u.AnimalIds)
             .WithOne(u => u.User)
-            .HasForeignKey(a => a.user_id)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(a => a.user_id);
         }
     }  
 }

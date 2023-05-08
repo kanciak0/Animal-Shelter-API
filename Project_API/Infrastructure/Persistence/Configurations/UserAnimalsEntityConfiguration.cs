@@ -11,19 +11,16 @@ namespace Project_API.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<UserAnimals> builder)
         {
             builder.Ignore(a => a.User);
+            builder.Ignore(u => u.user_id);
             builder.ToTable("UserAnimals");
             builder.HasKey(a => a.AnimalId);
+
             builder.Property(a => a.AnimalId)
                 .HasColumnName("Animal_ID")
                 .IsRequired()
                 .HasConversion(animalid => animalid.Value,
                 value => new UserAnimalId(value));
 
-            builder.Property(u => u.user_id)
-                .HasColumnName("User_ID")
-                .IsRequired(true)
-                .HasConversion(userid => userid.Value,
-                value => new User_ID(value));
         }
     }
 }

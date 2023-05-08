@@ -11,7 +11,7 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DemoDatabaseContextModelSnapshot : ModelSnapshot
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -167,10 +167,6 @@ namespace Project_API.Migrations
 
                     b.Property<Guid?>("User_UUID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("user_id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("User_ID");
 
                     b.HasKey("AnimalId");
 
