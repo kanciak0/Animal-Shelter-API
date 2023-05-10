@@ -4,6 +4,6 @@ namespace Project_API.Domain.Abstract
 {
     public interface IClientRegistrationService
     {
-        Client RegisterClient(Client_ID id, string username, ClientCredentials credentials, ClientAddress address, int age);
+        Client RegisterClient(Client_ID id, string username, ClientCredentials credentials, ClientAddress address, int age, AnimalShelter_ID animalShelter_ID);
     }
 }

@@ -17,7 +17,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 (shelterid => shelterid.Value,
                 value => new AnimalShelter_ID(value));
 
-            builder.HasMany(a => a.animals)
+            builder.HasMany(a => a.shelteredanimals)
                 .WithOne(sa => sa.AnimalShelter)
                 .HasForeignKey(sa => sa.animal_shelter_Id)
                 .OnDelete(DeleteBehavior.Cascade);

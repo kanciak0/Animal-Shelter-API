@@ -1,4 +1,5 @@
-﻿using Project_API.Domain.Animal_ShelterAggregate;
+﻿using Project_API.Common.Mappings;
+using Project_API.Domain.Animal_ShelterAggregate;
 using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Features._AnimalShelter;
@@ -19,18 +20,17 @@ public class AdoptionUoW:IAdoptionUoW
     public void DoWork(AdoptCommand request)
     {
         var user = _userRepository.GetByID(request.User_Id);
-        var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
-        var client = ClientMapper.CreateClient(user, shelter);
+        var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID, "shelteredanimals");
+        var client = ClientMapper.CreateClient(user, shelter, shelter.AnimalShelter_ID);
+        var shelteredanimal = shelter.shelteredanimals.FirstOrDefault(x => x.ShelteredAnimal_UUID.Equals(request.ShelteredAnimal_ID));
+        UserAnimals useranimal = ShelteredAnimalMapping.ToUserAnimal(shelteredanimal);
 
+        shelter.GiveToAdoption(client.Client_UUID, shelteredanimal.ShelteredAnimal_UUID,shelter.AnimalShelter_ID);
 
-        shelter.GiveToAdoption(client.Client_UUID, request.ShelteredAnimal_ID);
-
-        user.Adopt(request.animal_Id,request.Name);
-
+        user.Adopt(useranimal);
         _userRepository.Update(user);
         _animalShelterRepository.Update(shelter);
 
-        _unitOfWork.SaveChangesAsync().Wait();
-        _unitOfWork.Dispose();
+        _unitOfWork.SaveChangesAsync();
     }
 }

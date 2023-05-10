@@ -30,13 +30,11 @@ namespace Project_API.Features._AnimalShelter
         public User_ID User_Id { get; set; }
         public ShelteredAnimal_ID ShelteredAnimal_ID { get; set; }
         public AnimalShelter_ID AnimalShelter_ID { get;set; }
-        public UserAnimalId animal_Id { get; set; }
-        public string Name { get; set; }
     }
     public class AdoptResult
     {
         public User_ID User_Id { get; set; }
-        public ShelteredAnimal_ID ShelteredAnimal_ID { get; set; }
+        public UserAnimalId UserAnimalId { get; set; }
         public AnimalShelter_ID AnimalShelter_ID { get; set; }
         public string Message { get; set; }
     }
@@ -51,12 +49,12 @@ namespace Project_API.Features._AnimalShelter
         {
             try
             {
-                _adoptionUoW.DoWork(request);
+                await _adoptionUoW.DoWork(request);
 
                 return await Task.FromResult(new AdoptResult
                 {
                     User_Id = request.User_Id,
-                    ShelteredAnimal_ID = request.ShelteredAnimal_ID,
+                    UserAnimalId = new UserAnimalId(request.ShelteredAnimal_ID.Value),
                     AnimalShelter_ID = request.AnimalShelter_ID,
                     Message = "Adoption has been succesfully made"
                 });

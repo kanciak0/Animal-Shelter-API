@@ -1,4 +1,4 @@
-﻿public interface IUnitOfWork:IDisposable
+﻿public interface IUnitOfWork
 {
     Task<int> SaveChangesAsync();
 }

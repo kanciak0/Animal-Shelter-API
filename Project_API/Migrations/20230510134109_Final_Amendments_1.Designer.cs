@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_API.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Project_API.Infrastructure.Persistence;
 namespace Project_API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230510134109_Final_Amendments_1")]
+    partial class Final_Amendments_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,12 +172,12 @@ namespace Project_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("user_id")
+                    b.Property<Guid?>("User_UUID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AnimalId");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("User_UUID");
 
                     b.ToTable("UserAnimals", (string)null);
                 });
@@ -400,11 +403,9 @@ namespace Project_API.Migrations
 
             modelBuilder.Entity("UserAnimals", b =>
                 {
-                    b.HasOne("Project_API.Entities.UserAggregate.User", "User")
-                        .WithMany("Animals")
-                        .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Project_API.Entities.UserAggregate.User", null)
+                        .WithMany("AnimalIds")
+                        .HasForeignKey("User_UUID");
 
                     b.OwnsOne("Project_API.Domain.UserAggregate.UserAnimalSpecies", "Species", b1 =>
                         {
@@ -427,8 +428,6 @@ namespace Project_API.Migrations
 
                     b.Navigation("Species")
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Project_API.Entities.Animal_ShelterAggregate.AnimalShelter", b =>
@@ -442,7 +441,7 @@ namespace Project_API.Migrations
 
             modelBuilder.Entity("Project_API.Entities.UserAggregate.User", b =>
                 {
-                    b.Navigation("Animals");
+                    b.Navigation("AnimalIds");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,6 @@
-﻿namespace Project_API.Entities.UserAggregate
+﻿using Project_API.Domain.UserAggregate;
+
+namespace Project_API.Entities.UserAggregate
 {
     public class User
     {
@@ -7,7 +9,7 @@
         public UserCredentials UserCredentials { get; private set; }
         public UserAddress UserAddress { get; private set; }
         public int Age { get; private set; }
-        public ICollection<UserAnimals> AnimalIds { get; private set; } = new List<UserAnimals>();
+        public ICollection<UserAnimals> Animals { get; private set; } = new List<UserAnimals>();
 
         private User() { }
         public User(string username, UserCredentials credentials, UserAddress address, int age)
@@ -19,18 +21,17 @@
             Age = age;
         }
 
-        public void Adopt(UserAnimalId animalId, string name)
+        public void Adopt(UserAnimals userAnimals)
         {
-            var userAnimal = new UserAnimals(animalId, name);
-            AnimalIds.Add(userAnimal);
+            Animals.Add(userAnimals);
         }
         public void GiveAnimalToShelter(UserAnimalId animalId)
         {
             if (animalId == null) throw new ArgumentNullException(nameof(animalId));
-            var animalToRemove = AnimalIds.SingleOrDefault(a => a.AnimalId == animalId);
+            var animalToRemove = Animals.SingleOrDefault(a => a.AnimalId == animalId);
             if (animalToRemove != null)
             {
-                AnimalIds.Remove(animalToRemove);
+                Animals.Remove(animalToRemove);
             }
         }
 

@@ -1,10 +1,11 @@
-﻿using System.Linq.Expressions;
+﻿using Project_API.Entities.AnimalAggregate;
+using System.Linq.Expressions;
 
 public interface IAnimalRepository:IDisposable
 {
-    void Delete(StronglyTypedId<Guid> id);
+    void Delete(Animal_ID id);
     IEnumerable<Animal> Get(Expression<Func<Animal, bool>> filter = null, Func<IQueryable<Animal>, IOrderedQueryable<Animal>> orderBy = null, string includeProperties = "");
-    Animal GetByID(StronglyTypedId<Guid> id);
+    Animal GetByID(Animal_ID id);
     void Insert(Animal entity);
     void Save();
     Task SaveChangesAsync();

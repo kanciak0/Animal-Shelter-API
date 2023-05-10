@@ -14,13 +14,17 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Ignore(a => a.AnimalShelter);
 
             builder.ToTable("ShelteredAnimal");
-            builder.HasKey(a => a.ShelteredAnimal_UUID);
+            builder.HasKey(c => c.ShelteredAnimal_UUID);
+
+            builder.HasOne(a => a.AnimalShelter)
+                .WithMany(a => a.shelteredanimals)
+                .HasForeignKey(a => a.animal_shelter_Id);
 
             builder.Property(a =>a.ShelteredAnimal_UUID)
-            .HasColumnName("ShelteredAnimal_UUID")
-            .IsRequired()
-            .HasConversion(animalId => animalId.Value,
-            value => new ShelteredAnimal_ID(value));
+                .HasColumnName("ShelteredAnimal_UUID")
+                .IsRequired()
+                .HasConversion(animalId => animalId.Value,
+                value => new ShelteredAnimal_ID(value));
 
             builder.OwnsOne(a => a.Species)
                 .Property(a => a.Breed)
@@ -38,9 +42,9 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                  v => (AdoptionStatus)Enum.Parse(typeof(AdoptionStatus), v));
 
             builder.Property(x => x.Condition)
-                   .HasConversion(
-                    v => v.ToString(),
-                    v => (HealthCondition)Enum.Parse(typeof(HealthCondition), v));
+                 .HasConversion(
+                 v => v.ToString(),
+                 v => (HealthCondition)Enum.Parse(typeof(HealthCondition), v));
         }
     }
 }

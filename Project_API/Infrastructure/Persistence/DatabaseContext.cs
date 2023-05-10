@@ -21,6 +21,7 @@ namespace Project_API.Infrastructure.Persistence
         public DbSet<ShelteredAnimal> ShelteredAnimals { get; set; }
         public DbSet<Adoption> Adoptions { get; set; }
         public DbSet<AnimalShelter> Shelters { get; set; }
+        public DbSet<UserAnimals> UserAnimals { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

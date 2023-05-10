@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_API.Data;
 using Project_API.Domain.Abstract;
+using Project_API.Entities.AnimalAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Linq.Expressions;
@@ -14,12 +15,13 @@ public class AnimalRepository : IAnimalRepository
         _context = context;
     }
 
-    public void Delete(StronglyTypedId<Guid> id)
+    public void Delete(Animal_ID id)
     {
         var entityToDelete = _context.Set<Animal>().FirstOrDefault(e => e.Animal_UUID.Equals(id));
         if (entityToDelete != null)
         {
             _context.Set<Animal>().Remove(entityToDelete);
+            _context.Entry(entityToDelete).State = EntityState.Deleted;
         }
     }
     public IEnumerable<Animal> Get(Expression<Func<Animal, bool>> filter = null, Func<IQueryable<Animal>, IOrderedQueryable<Animal>> orderBy = null, string includeProperties = "")
@@ -46,7 +48,7 @@ public class AnimalRepository : IAnimalRepository
         }
     }
 
-    public Animal GetByID(StronglyTypedId<Guid> id)
+    public Animal GetByID(Animal_ID id)
     {
         return _context.Set<Animal>().FirstOrDefault(e => e.Animal_UUID.Equals(id));
     }

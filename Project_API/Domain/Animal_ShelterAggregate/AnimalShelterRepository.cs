@@ -15,12 +15,13 @@ namespace Project_API.Domain.Animal_ShelterAggregate
         {
             _dbcontext = dbcontext;
         }
-        public void Delete(StronglyTypedId<Guid> id)
+        public void Delete(AnimalShelter_ID id)
         {
             var entityToDelete = _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
             if (entityToDelete != null)
             {
                 _dbcontext.Set<AnimalShelter>().Remove(entityToDelete);
+                _dbcontext.Entry(entityToDelete).State = EntityState.Deleted;
             }
         }
         public IEnumerable<AnimalShelter> Get(Expression<Func<AnimalShelter, bool>> filter = null, Func<IQueryable<AnimalShelter>, IOrderedQueryable<AnimalShelter>> orderBy = null, string includeProperties = "")
@@ -47,10 +48,18 @@ namespace Project_API.Domain.Animal_ShelterAggregate
             }
         }
 
-        public AnimalShelter GetByID(StronglyTypedId<Guid> id)
+        public AnimalShelter GetByID(AnimalShelter_ID id, string includeProperties = "")
         {
-            return _dbcontext.Set<AnimalShelter>().FirstOrDefault(e => e.AnimalShelter_ID.Equals(id));
+            IQueryable<AnimalShelter> query = _dbcontext.Set<AnimalShelter>();
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return query.FirstOrDefault(e => e.AnimalShelter_ID == id);
         }
+
 
         public void Insert(AnimalShelter entity)
         {
@@ -60,6 +69,7 @@ namespace Project_API.Domain.Animal_ShelterAggregate
         public void Update(AnimalShelter entityToUpdate)
         {
             _dbcontext.Set<AnimalShelter>().Update(entityToUpdate);
+            _dbcontext.Entry(entityToUpdate).State = EntityState.Modified;
         }
         public void Save()
         {

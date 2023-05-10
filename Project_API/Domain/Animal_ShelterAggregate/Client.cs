@@ -24,13 +24,14 @@ namespace Project_API.Entities.Animal_ShelterAggregate
             Responsible,
             Irresponsible
         }
-        public Client(Client_ID client_UUID, string username, ClientCredentials credentials, ClientAddress address, int age)
+        public Client(Client_ID client_UUID, string username, ClientCredentials credentials, ClientAddress address, int age, AnimalShelter_ID animalShelter_ID)
         {
             Client_UUID = client_UUID;
             UserName = username;
             Credentials = credentials;
             Address = address;
             Age = age;
+            animal_shelter_Id = animalShelter_ID;
         }
         public void SetResponsibility(Responsibility responsibility)
         {

@@ -24,7 +24,7 @@ namespace Project_API.Domain
             var user = _userRepository.GetByID(request.User_ID);
             var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
             var animalIdToRemove = request.UserAnimalsID;
-            var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove.AnimalId.Value);
+            var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove.AnimalId);
 
 
             user.GiveAnimalToShelter(animalIdToRemove.AnimalId);
@@ -34,7 +34,6 @@ namespace Project_API.Domain
             _userRepository.Update(user);
 
             _unitOfWork.SaveChangesAsync().Wait();
-            _unitOfWork.Dispose();
         }
     }
 }

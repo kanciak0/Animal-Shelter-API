@@ -16,6 +16,7 @@ public class StronglyTypedIdJsonConverterFactory : JsonConverterFactory
         return Cache.GetOrAdd(typeToConvert, CreateConverter);
     }
 
+
     private static JsonConverter CreateConverter(Type typeToConvert)
     {
         if (!StronglyTypedIdHelper.IsStronglyTypedId(typeToConvert, out var valueType))

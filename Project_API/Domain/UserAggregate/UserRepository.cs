@@ -14,12 +14,13 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public void Delete(StronglyTypedId<Guid> id)
+    public void Delete(User_ID id)
     {
         var entityToDelete = _context.Set<User>().FirstOrDefault(e => e.User_UUID.Equals(id));
         if (entityToDelete != null)
         {
             _context.Set<User>().Remove(entityToDelete);
+            _context.Entry(entityToDelete).State = EntityState.Deleted;
         }
     }
     public IEnumerable<User> Get(Expression<Func<User, bool>> filter = null, Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null, string includeProperties = "")
@@ -46,7 +47,7 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public User GetByID(StronglyTypedId<Guid> id)
+    public User GetByID(User_ID id)
     {
         return _context.Set<User>().FirstOrDefault(e => e.User_UUID.Equals(id));
     }
@@ -59,6 +60,7 @@ public class UserRepository : IUserRepository
     public void Update(User entityToUpdate)
     {
         _context.Set<User>().Update(entityToUpdate);
+        _context.Entry(entityToUpdate).State = EntityState.Modified;
     }
     public void Save()
     {

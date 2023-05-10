@@ -9,10 +9,13 @@ public class ClientEntityConfiguration:IEntityTypeConfiguration<Client>
     {
         builder.Ignore(a => a.animal_shelter_Id);
         builder.Ignore(a => a.AnimalShelter);
-
+       
         builder.ToTable("Clients");
-
         builder.HasKey(c => c.Client_UUID);
+
+        builder.HasOne(a => a.AnimalShelter)
+               .WithMany(a => a.clients)
+               .HasForeignKey(a => a.animal_shelter_Id);
 
         builder.Property(c => c.Client_UUID)
             .HasColumnName("Client_ID")

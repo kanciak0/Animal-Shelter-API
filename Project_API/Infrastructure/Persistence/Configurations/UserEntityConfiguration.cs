@@ -44,7 +44,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
                 .HasMaxLength(255)
                 .HasColumnName("Lastname");
 
-            builder.HasMany(u => u.AnimalIds)
+            builder.HasMany(u => u.Animals)
             .WithOne(u => u.User)
             .HasForeignKey(a => a.user_id);
         }

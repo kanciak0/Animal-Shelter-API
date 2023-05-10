@@ -13,7 +13,12 @@ namespace Project_API.Infrastructure.Persistence.Configurations
             builder.Ignore(a => a.AnimalShelter);
 
             builder.ToTable("Adoption");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(c => c.Id);
+
+            builder.HasOne(a => a.AnimalShelter)
+               .WithMany(a => a.adoptions)
+               .HasForeignKey(a => a.animal_shelter_Id);
+
             builder.Property(x => x.Id)
            .ValueGeneratedOnAdd()
            .UseIdentityColumn()

@@ -5,9 +5,9 @@ namespace Project_API.Domain.Animal_ShelterAggregate
 {
     public interface IAnimalShelterRepository: IDisposable
     {
-        void Delete(StronglyTypedId<Guid> id);
+        void Delete(AnimalShelter_ID id);
         IEnumerable<AnimalShelter> Get(Expression<Func<AnimalShelter, bool>> filter = null, Func<IQueryable<AnimalShelter>, IOrderedQueryable<AnimalShelter>> orderBy = null, string includeProperties = "");
-        AnimalShelter GetByID(StronglyTypedId<Guid> id);
+        AnimalShelter GetByID(AnimalShelter_ID id, string includeProperties = "");
         void Insert(AnimalShelter entity);
         void Save();
         Task SaveChangesAsync();

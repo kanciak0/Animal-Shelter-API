@@ -22,16 +22,14 @@ namespace Project_API.Domain
         {
             var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
             var animal = _animalRepository.GetByID(request.Animal_ID);
-            var shelteredAnimal = ShelteredAnimalMapping.ToShelteredAnimal(animal);
+            var shelteredAnimal = ShelteredAnimalMapping.ToShelteredAnimal(animal,shelter.AnimalShelter_ID);
 
-            shelter.RegisterShelteredAnimal(shelteredAnimal.ShelteredAnimal_UUID, request.AnimalName, shelteredAnimal.Species);
-            _animalRepository.Delete(request.Animal_ID);
+            shelter.RegisterShelteredAnimal(shelteredAnimal.ShelteredAnimal_UUID,shelteredAnimal.Name, shelteredAnimal.Species,shelter.AnimalShelter_ID);
+            _animalRepository.Delete(animal.Animal_UUID);
 
-            _animalRepository.Update(animal);
             _animalShelterRepository.Update(shelter);
 
             _unitOfWork.SaveChangesAsync();
-            _unitOfWork.Dispose();
         }
     }
 }

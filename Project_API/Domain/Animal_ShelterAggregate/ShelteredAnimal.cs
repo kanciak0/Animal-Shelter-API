@@ -1,5 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
     public class ShelteredAnimal
@@ -13,6 +15,7 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         public AdoptionStatus Status { get; private set; }
 
         [NotMapped]
+        [AllowNull]
         public AnimalShelter AnimalShelter { get; }
 
         [NotMapped]
@@ -35,11 +38,12 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         {
             Condition = condition;
         }
-        public ShelteredAnimal(ShelteredAnimal_ID shelteredAnimal_ID, string name, ShelteredAnimalSpecies species)
+        public ShelteredAnimal(ShelteredAnimal_ID shelteredAnimal_ID, string name, ShelteredAnimalSpecies species, AnimalShelter_ID animal_shelter_id)
         {
             ShelteredAnimal_UUID = shelteredAnimal_ID;
             Name = name;
             Species = species;
+            animal_shelter_Id = animal_shelter_id;
         }
 
         //TODO: Make it through enumeration classes 

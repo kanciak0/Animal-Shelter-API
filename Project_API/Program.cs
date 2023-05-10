@@ -5,6 +5,9 @@ using Project_API.Common.Behaviours;
 using Project_API.Domain;
 using Project_API.Domain.Abstract;
 using Project_API.Domain.Animal_ShelterAggregate;
+using Project_API.Entities.Animal_ShelterAggregate;
+using Project_API.Entities.AnimalAggregate;
+using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Reflection;
 
@@ -13,7 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers().AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverterFactory());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<User_ID, Guid>());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<Animal_ID, Guid>());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<ShelteredAnimal_ID, Guid>());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<AnimalShelter_ID, Guid>());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<UserAnimalId, Guid>());
+        options.JsonSerializerOptions.Converters.Add(new StronglyTypedIdJsonConverter<Client_ID, Guid>());
+      
+    });
+    builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    {
+    //    options.SerializerSettings.Converters.Add(new StronglyTypedIdNewtonsoftJsonConverter());
     });
     builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
