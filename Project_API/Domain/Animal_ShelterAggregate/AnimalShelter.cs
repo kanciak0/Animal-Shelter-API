@@ -1,4 +1,5 @@
-﻿using Project_API.Domain.Abstract;
+﻿using Azure.Core;
+using Project_API.Domain.Abstract;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
@@ -49,6 +50,10 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         }
         public ShelteredAnimal RegisterShelteredAnimal(ShelteredAnimal_ID id,string name, ShelteredAnimalSpecies species,AnimalShelter_ID animalShelter_ID)
         {
+            if (shelteredanimals.Any(c => c.ShelteredAnimal_UUID == id))
+            {
+                return null;
+            }
             var sheltered_animal = new ShelteredAnimal(id,name, species,animalShelter_ID);
             shelteredanimals.Add(sheltered_animal);
             return sheltered_animal;
@@ -57,7 +62,9 @@ namespace Project_API.Entities.Animal_ShelterAggregate
         {
             var client = clients.SingleOrDefault(c => c.Client_UUID.Equals(clientid));
             var shelteredanimal = shelteredanimals.SingleOrDefault(a => a.ShelteredAnimal_UUID == shelteredanimalid);
+            var adoption = adoptions.SingleOrDefault(a => a.ShelteredAnimal_id.Equals(shelteredanimalid) && a.Client_id.Equals(clientid));
 
+            adoptions.Remove(adoption);
             if (client.Client_UUID == null)
             {
                 throw new NotImplementedException();

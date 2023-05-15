@@ -12,13 +12,13 @@ namespace Project_API.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<UserAnimals> builder)
         {
             builder.Ignore(a => a.User);
-            builder.Ignore(u => u.user_id);
+            builder.Ignore(u => u.User_id);
             builder.ToTable("UserAnimals");
             builder.HasKey(c => c.AnimalId);
 
             builder.HasOne(a => a.User)
                .WithMany(a => a.Animals)
-               .HasForeignKey(a => a.user_id);
+               .HasForeignKey(a => a.User_id);
 
             builder.Property(a => a.AnimalId)
                 .HasColumnName("Animal_ID")

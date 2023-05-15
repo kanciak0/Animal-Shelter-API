@@ -3,6 +3,6 @@ using Project_API.Features._AnimalShelter;
 
 public interface IAdoptionUoW
 {
-    void DoWork(AdoptCommand request);
+    Task DoWork(AdoptCommand request);
 
 }

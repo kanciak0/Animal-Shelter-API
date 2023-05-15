@@ -21,15 +21,13 @@ namespace Project_API.Features._AnimalShelter
     {
         public AnimalShelter_ID AnimalShelter_ID { get; set; }
         public User_ID User_ID { get; set; }
-        public Client_ID Client_ID { get; set; }
-        public UserAnimals UserAnimalsID { get; set; }
+        public UserAnimalId UserAnimalsID { get; set; }
     }
     public class GiveAnimalFromClientToShelterResult
     {
         public AnimalShelter_ID AnimalShelter_ID { get; set; }
-        public User_ID User_ID { get; set; }
         public Client_ID Client_ID { get; set; }
-        public UserAnimals UserAnimalsID { get; set; }
+        public ShelteredAnimal_ID  ShelteredAnimal_ID { get; set; }
         public string Message { get; set; }
 
     }
@@ -48,9 +46,8 @@ namespace Project_API.Features._AnimalShelter
                 return await Task.FromResult(new GiveAnimalFromClientToShelterResult
                 {
                     AnimalShelter_ID = request.AnimalShelter_ID,
-                    User_ID = request.User_ID,
-                    Client_ID = request.Client_ID,
-                    UserAnimalsID = request.UserAnimalsID,
+                    ShelteredAnimal_ID = new ShelteredAnimal_ID(request.UserAnimalsID.Value),
+                    Client_ID = new Client_ID(request.User_ID.Value),
                     Message = "Animal has been successfully given to shelter"
                 });
             }

@@ -38,7 +38,7 @@ namespace Project_API.Features._AnimalShelter
         {
             try
             {
-                _findStrayAnimalsUow.DoWork(request);
+                await _findStrayAnimalsUow.DoWork(request);
                 return await Task.FromResult(new FindStrayAnimalResult
                 {
                     AnimalShelter_id = request.AnimalShelter_ID,

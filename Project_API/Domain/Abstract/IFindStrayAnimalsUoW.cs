@@ -4,6 +4,6 @@ namespace Project_API.Domain.Abstract
 {
     public interface IFindStrayAnimalsUoW
     {
-        void DoWork(FindStrayAnimalCommand request);
+        Task DoWork(FindStrayAnimalCommand request);
     }
 }

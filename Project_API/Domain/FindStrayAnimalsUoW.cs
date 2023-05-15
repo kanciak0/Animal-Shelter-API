@@ -18,7 +18,7 @@ namespace Project_API.Domain
             _animalShelterRepository = animalShelterRepository;
             _unitOfWork = unitOfWork;
         }
-        public void DoWork(FindStrayAnimalCommand request)
+        public async Task DoWork(FindStrayAnimalCommand request)
         {
             var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
             var animal = _animalRepository.GetByID(request.Animal_ID);
@@ -29,7 +29,7 @@ namespace Project_API.Domain
 
             _animalShelterRepository.Update(shelter);
 
-            _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

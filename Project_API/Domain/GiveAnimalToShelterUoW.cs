@@ -19,21 +19,21 @@ namespace Project_API.Domain
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
         }
-        public void DoWork(GiveAnimalFromClientToShelterCommand request)
+        public async Task DoWork(GiveAnimalFromClientToShelterCommand request)
         {
-            var user = _userRepository.GetByID(request.User_ID);
-            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID);
-            var animalIdToRemove = request.UserAnimalsID;
-            var shelteredAnimalId = ShelteredAnimalMapping.MapToShelteredAnimalId(animalIdToRemove.AnimalId);
+            var user = _userRepository.GetByID(request.User_ID, "Animals");
+            var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID, "clients,adoptions");
+            var useranimal = user.Animals.FirstOrDefault(x => x.AnimalId.Equals(request.UserAnimalsID));
+            var shelteredAnimal = ShelteredAnimalMapping.CreateShelteredAnimalFromUserpet(useranimal, shelter.AnimalShelter_ID);
+            var client = ClientMapper.CreateClient(user, shelter, shelter.AnimalShelter_ID);
 
-
-            user.GiveAnimalToShelter(animalIdToRemove.AnimalId);
-            shelter.TakeAnimalFromClient(request.Client_ID, shelteredAnimalId);
+            user.GiveAnimalToShelter(useranimal.AnimalId);
+            shelter.TakeAnimalFromClient(client.Client_UUID,shelteredAnimal.ShelteredAnimal_UUID);
 
             _animalShelterRepository.Update(shelter);
             _userRepository.Update(user);
 
-            _unitOfWork.SaveChangesAsync().Wait();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

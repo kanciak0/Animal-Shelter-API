@@ -46,7 +46,7 @@ namespace Project_API.Infrastructure.Persistence.Configurations
 
             builder.HasMany(u => u.Animals)
             .WithOne(u => u.User)
-            .HasForeignKey(a => a.user_id);
+            .HasForeignKey(a => a.User_id);
         }
     }  
 }

@@ -1,6 +1,6 @@
 ﻿using Project_API.Infrastructure.Persistence;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork,IDisposable
 {
     private readonly DatabaseContext _context;
 

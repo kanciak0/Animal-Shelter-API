@@ -8,12 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class UserAnimals
 {
     public UserAnimals() { }
-    public UserAnimals(UserAnimalId animalId, string name,UserAnimalSpecies userAnimalSpecies, UserAnimalHealthCondition condition)
+    public UserAnimals(UserAnimalId animalId, string name,UserAnimalSpecies userAnimalSpecies, UserAnimalHealthCondition condition,User_ID user_ID)
     {
         AnimalId = animalId;
         Name = name;
         Species = userAnimalSpecies;
         Condition = condition;
+        User_id = user_ID;
     }
     
     public UserAnimalId AnimalId { get; private set; }
@@ -26,7 +27,7 @@ public class UserAnimals
         Healthy
     }
     public User User { get; }
-    public User_ID user_id { get; }
+    public User_ID User_id { get; }
 }
 [JsonObject]
 public record UserAnimalId(Guid Value) : StronglyTypedId<Guid>(Value);

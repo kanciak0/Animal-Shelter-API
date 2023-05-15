@@ -17,13 +17,13 @@ public class AdoptionUoW:IAdoptionUoW
         _unitOfWork = unitOfWork;
     }
 
-    public void DoWork(AdoptCommand request)
+    public async Task DoWork(AdoptCommand request)
     {
         var user = _userRepository.GetByID(request.User_Id);
         var shelter = _animalShelterRepository.GetByID(request.AnimalShelter_ID, "shelteredanimals");
         var client = ClientMapper.CreateClient(user, shelter, shelter.AnimalShelter_ID);
         var shelteredanimal = shelter.shelteredanimals.FirstOrDefault(x => x.ShelteredAnimal_UUID.Equals(request.ShelteredAnimal_ID));
-        UserAnimals useranimal = ShelteredAnimalMapping.ToUserAnimal(shelteredanimal);
+        UserAnimals useranimal = ShelteredAnimalMapping.ToUserAnimal(shelteredanimal,user.User_UUID);
 
         shelter.GiveToAdoption(client.Client_UUID, shelteredanimal.ShelteredAnimal_UUID,shelter.AnimalShelter_ID);
 
@@ -31,6 +31,6 @@ public class AdoptionUoW:IAdoptionUoW
         _userRepository.Update(user);
         _animalShelterRepository.Update(shelter);
 
-        _unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 }

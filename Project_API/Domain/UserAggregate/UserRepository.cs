@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project_API.Data;
 using Project_API.Domain.Abstract;
+using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
 using System.Linq.Expressions;
@@ -47,9 +48,16 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public User GetByID(User_ID id)
+    public User GetByID(User_ID id, string includeProperties = "")
     {
-        return _context.Set<User>().FirstOrDefault(e => e.User_UUID.Equals(id));
+        IQueryable<User> query = _context.Set<User>();
+
+        foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return query.FirstOrDefault(e => e.User_UUID == id);
     }
 
     public void Insert(User entity)

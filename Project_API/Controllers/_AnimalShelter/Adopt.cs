@@ -49,7 +49,7 @@ namespace Project_API.Features._AnimalShelter
         {
             try
             {
-                await _adoptionUoW.DoWork(request);
+                _adoptionUoW.DoWork(request);
 
                 return await Task.FromResult(new AdoptResult
                 {
