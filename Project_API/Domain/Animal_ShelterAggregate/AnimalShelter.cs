@@ -3,7 +3,7 @@ using Project_API.Domain.Abstract;
 
 namespace Project_API.Entities.Animal_ShelterAggregate
 {
-    public class AnimalShelter : IClientRegistrationService,IAnimalRegistrationService
+    public class AnimalShelter : IClientRegistrationService,IRegisterShelteredAnimal
     {
         public AnimalShelter_ID AnimalShelter_ID { get; private set; }
 

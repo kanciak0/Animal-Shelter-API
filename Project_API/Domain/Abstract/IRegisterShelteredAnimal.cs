@@ -2,7 +2,7 @@
 
 namespace Project_API.Domain.Abstract
 {
-    public interface IAnimalRegistrationService
+    public interface IRegisterShelteredAnimal
     {
         ShelteredAnimal RegisterShelteredAnimal(ShelteredAnimal_ID id, string name, ShelteredAnimalSpecies species, AnimalShelter_ID animalShelter_ID);
     }
