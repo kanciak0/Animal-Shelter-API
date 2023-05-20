@@ -9,6 +9,7 @@ using Project_API.Entities.Animal_ShelterAggregate;
 using Project_API.Entities.AnimalAggregate;
 using Project_API.Entities.UserAggregate;
 using Project_API.Infrastructure.Persistence;
+using System;
 using System.Reflection;
 
 
@@ -52,15 +53,18 @@ string dbConnection = Environment.GetEnvironmentVariable("DBConnection") ?? "Def
 string connectionString = builder.Configuration.GetConnectionString(dbConnection);
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
 
-
 var app = builder.Build();
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+        dbContext.Database.Migrate();
+    }
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
@@ -68,6 +72,3 @@ var app = builder.Build();
     app.MapControllers();
 }
 app.Run();
-
-
-
