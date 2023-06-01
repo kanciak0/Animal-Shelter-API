@@ -20,7 +20,7 @@ namespace Project_API.Common.Mappings
             var shelteredAnimal = new ShelteredAnimal(shelteredAnimalId, useranimal.Name, shelteredAnimalSpecies, animalShelter_ID);
             shelteredAnimal.SetCondition(healthCondition);
             return shelteredAnimal;
-        }
+        } //Test cos tam cos tam 
         public static ShelteredAnimal_ID MapToShelteredAnimalId(UserAnimalId userAnimalsId)
         {
             return new ShelteredAnimal_ID(userAnimalsId.Value);
